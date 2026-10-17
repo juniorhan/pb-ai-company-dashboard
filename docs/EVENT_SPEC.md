@@ -22,6 +22,8 @@
 | message | 문자열 | 필수 | 한 줄 설명(화면 피드에 그대로 나온다). 빈 문자열 허용 |
 | payload | 객체 | 종류별 | 아래 §3 |
 
+id 칸(`event_id`·`staff_id`·`task_id`와 payload의 `to`·`reviewer`·`approval_id`·`parent_task_id`)은 1~200자이고, `__proto__`·`constructor`·`toString` 같은 예약된 이름(JavaScript Object.prototype의 속성 이름)은 쓸 수 없습니다. 글 칸(`message`·`title`·`summary`·`reason`·`duty`)은 2000자까지입니다. 어기면 그 줄은 잘못된 줄로 셉니다.
+
 ## 3. 종류별 payload
 
 | type | payload 필수 | payload 선택 | 화면에 생기는 일 |

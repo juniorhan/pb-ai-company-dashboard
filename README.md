@@ -37,7 +37,7 @@ npm run check:public   # 공개 저장소 검사(비밀값·개인정보·내부
 | 쿼리 | 값 | 기본 |
 |---|---|---|
 | `source` | `sim`(시뮬레이션) · `jsonl`(주기적 읽기) · `ws`(WebSocket, 미검증) · `file` | `sim` |
-| `url` | `jsonl`·`ws`가 읽을 주소 | 개발 서버는 `/__pbai/events`, 배포 사이트는 가짜 샘플 |
+| `url` | `jsonl`·`ws`가 읽을 주소(개발 서버에서만, 공개 사이트는 무시) | 개발 서버는 `/__pbai/events`, 배포 사이트는 가짜 샘플 |
 | `interval` | `jsonl` 읽기 간격(초) | `5` |
 | `scenario` | `day`(하루 압축 재생) · `morning-briefing` · `closing-briefing` · `report-digest` · `anomaly` · `idle-morning` | `day` |
 | `speed` | `1` · `2` · `5` | `1` |
@@ -58,8 +58,8 @@ npm run check:public   # 공개 저장소 검사(비밀값·개인정보·내부
 실데이터는 **공개 사이트에 올리지 않습니다.** 아래 셋 중 하나로 각자의 PC에서만 봅니다. 실연결 화면은 읽기 전용이라 재생·승인 단추가 없습니다.
 
 1. **로컬 개발 서버(권장)**: `.env.example`을 `.env.local`로 복사합니다. `PBAI_EVENTS_PATHS`에 이 PC의 events.jsonl 경로를 `;`로 구분해 적습니다(Google Drive 동기화 폴더 경로도 됩니다. 처음 있는 파일을 씁니다). 그다음 `npm run dev`를 실행하고 `http://127.0.0.1:5173/?source=jsonl`을 엽니다. 개발 서버는 기본적으로 이 PC에서 온 요청만 받습니다(`PBAI_ALLOW_LAN=1`이면 같은 네트워크 허용).
-2. **파일 열기**: 상단 '파일 열기'를 누르거나 창에 events.jsonl을 끌어다 놓습니다. 파일은 브라우저 안에서만 읽고 어디에도 올리지 않습니다.
-3. **주소 지정**: `?source=jsonl&url=<주소>&interval=5`. 그 주소가 이 사이트의 교차 출처 요청(CORS)을 허용해야 합니다. WebSocket은 `?source=ws&url=wss://…`이며 아직 실서버로 검증하지 않았습니다.
+2. **파일 열기**: 상단 '파일 열기'를 누르거나 창에 events.jsonl을 끌어다 놓습니다. 파일은 브라우저 안에서만 읽고 어디에도 올리지 않습니다(50MB 이하).
+3. **주소 지정(개발 서버에서만)**: `npm run dev`로 띄운 화면에서 `?source=jsonl&url=<주소>&interval=5`. 그 주소가 교차 출처 요청(CORS)을 허용해야 합니다. WebSocket은 `?source=ws&url=wss://…`이며 아직 실서버로 검증하지 않았습니다. 공개 사이트는 `url`을 무시하고 가짜 샘플만 읽습니다(남이 만든 링크로 바깥 기록을 띄우지 못하게).
 
 `JsonlPollingSource`는 주기적으로 파일 전체를 읽어 새 `event_id`만 반영합니다. 잘못된 줄은 건너뛰고 개수를 표시합니다. 실패하면 5 → 10 → 30초 간격으로 다시 시도합니다.
 
