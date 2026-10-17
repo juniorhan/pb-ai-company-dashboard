@@ -21,7 +21,7 @@ npm install
 npm run dev        # http://127.0.0.1:5173
 npm test           # 시험(조직 사본 무결성·상태 계산 재생·이벤트 형식·시뮬레이터·소스)
 npm run build      # dist/ 생성(GitHub Pages용 경로 /pb-ai-company-dashboard/)
-npm run preview    # 빌드 결과 미리 보기
+npm run preview    # 빌드 결과 미리 보기(http://localhost:4173/pb-ai-company-dashboard/)
 npm run check:public   # 공개 저장소 검사(비밀값·개인정보·내부 경로 모양)
 ```
 
