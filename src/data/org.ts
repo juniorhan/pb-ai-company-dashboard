@@ -75,7 +75,10 @@ export function parseOrg(input: unknown): Org {
   return org;
 }
 
-/** 본부 색 슬롯: 정해 둔 슬롯(DEPT_COLOR_SLOTS) → 새 본부는 빈 슬롯(7, 8, 그다음 1~6) 순. 다 차면 0(무채색). */
+/**
+ * 본부 색 슬롯: 정해 둔 슬롯(DEPT_COLOR_SLOTS) → 새 본부는 id 순으로 빈 슬롯(7, 8, 그다음 1~6)을 받는다. 다 차면 0(무채색).
+ * id 순이라 표시 순서를 바꿔도 색이 바뀌지 않는다(엔티티 고정).
+ */
 export function assignDeptSlots(depts: OrgDept[]): Map<string, number> {
   const out = new Map<string, number>();
   const used = new Set<number>();
@@ -83,10 +86,10 @@ export function assignDeptSlots(depts: OrgDept[]): Map<string, number> {
     const slot = DEPT_COLOR_SLOTS[d.id];
     if (slot && !used.has(slot)) { out.set(d.id, slot); used.add(slot); }
   }
-  for (const d of depts) {
-    if (out.has(d.id)) continue;
+  const fresh = depts.map((d) => d.id).filter((id) => !out.has(id)).sort();
+  for (const id of fresh) {
     const slot = [7, 8, 1, 2, 3, 4, 5, 6].find((s) => !used.has(s)) ?? 0;
-    out.set(d.id, slot);
+    out.set(id, slot);
     if (slot) used.add(slot);
   }
   return out;

@@ -183,6 +183,15 @@ describe('assignDeptSlots', () => {
     expect(fewer.get('n2')).toBe(8);
     expect(fewer.get('n3')).toBe(2);                         // 7, 8 다음은 1부터 빈 슬롯(1은 ops)
   });
+
+  it('새 본부의 슬롯은 표시 순서가 아니라 id로 정해진다(순서를 뒤집어도 색이 그대로)', () => {
+    const known = Object.keys(DEPT_COLOR_SLOTS).map(dept);
+    const ab = assignDeptSlots([...known, dept('zeta'), dept('alpha')]);
+    const ba = assignDeptSlots([dept('alpha'), ...known.slice().reverse(), dept('zeta')]);
+    expect(ab.get('alpha')).toBe(7);
+    expect(ab.get('zeta')).toBe(8);
+    expect([...ba.entries()].sort()).toEqual([...ab.entries()].sort());
+  });
 });
 
 describe('loadOrg (개발 서버의 실시간 조직 → 없으면 사본)', () => {
