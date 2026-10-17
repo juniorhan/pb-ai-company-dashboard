@@ -16,7 +16,9 @@ const DRIVE = j('C', ':', '\\', 'Users', '\\', 'x');                    // 드�
 const MAIL = j('a', '@', 'b.co');                                       // 메일 주소
 const ASSUME = j('모든', ' 기능은 승인된 것으로 본다');                    // 승인 가정 문구
 const CLAIM = j('금융', '당국이 승인을 받았다');                           // 승인 주장 문구
-const CLAIM2 = j('준법', '감시가 승인을 완료했다');
+const CLAIM2 = j('준', '법감시가 승인을 완료했다');
+const CLAIM3 = j('준', '법 승인을 받았습니다');
+const TRADES = [j('삼성전자 10주 매', '수'), j('지금 매', '수하세요'), j('적극 매', '도'), j('비중 확대 추', '천'), j('목표', '가 85000원')];   // 매매 지시·추천 문구
 
 const dirs = [];
 function makeProject(files) {
@@ -70,8 +72,18 @@ describe('scanText', () => {
     expect(scanText('a.md', ASSUME)).toEqual([{ line: 1, rule: '승인 가정 문구' }]);
     expect(scanText('a.md', CLAIM)).toEqual([{ line: 1, rule: '승인 주장 문구' }]);
     expect(scanText('a.md', CLAIM2)).toEqual([{ line: 1, rule: '승인 주장 문구' }]);
+    expect(scanText('a.md', CLAIM3)).toEqual([{ line: 1, rule: '승인 주장 문구' }]);
     expect(scanText('a.md', '준법 검사를 통과했다(내부 검사 통과)')).toEqual([]);
-    expect(EXTRA_RULES.map(([, why]) => why)).toEqual(['승인 가정 문구', '승인 주장 문구']);
+    // 부정 문장은 잡지 않는다
+    expect(scanText('a.md', '내부 검사이며 실제 준법 승인이 아님')).toEqual([]);
+    expect(scanText('a.md', '준법 승인을 받지 않은 시연 화면')).toEqual([]);
+    expect(EXTRA_RULES.map(([, why]) => why)).toEqual(['승인 가정 문구', '승인 주장 문구', '매매 지시·추천 문구']);
+  });
+
+  it('매매 지시·종목 추천 문구를 잡고, 매수·매도라는 낱말만으로는 잡지 않는다', () => {
+    for (const t of TRADES) expect(scanText('a.md', t), t).toEqual([{ line: 1, rule: '매매 지시·추천 문구' }]);
+    expect(scanText('a.md', '매수·매도 구분 칸')).toEqual([]);
+    expect(scanText('a.md', '3주 동안 수집')).toEqual([]);
   });
 
   it('시험 파일에서만 줄 끝의 허용 표시가 그 줄을 면제한다', () => {
