@@ -1,0 +1,39 @@
+{
+  "id": "morning-briefing",
+  "title": "모닝 브리핑",
+  "description": "시황 재료·이벤트 일정 → 정기 브리핑 작가 초안 → 편집장 편집 → 기계 검사 → 독립 검사(다른 회사 모델) → 발행 관문 → 대표 승인 → 투자노트 게시(시뮬레이션)",
+  "order": 10,
+  "start": "06:30",
+  "virtual_minutes": 70,
+  "steps": [
+    { "after": 0, "do": "create", "task": "brief", "title": "모닝 브리핑 발행", "actor": { "duty": "NEW-01", "staff": "ops-02-e01", "team": "ops-02" }, "executor": "claude", "message": "오늘 모닝 브리핑 작업 카드를 배정했습니다" },
+    { "after": 3, "do": "create", "task": "data", "parent": "brief", "title": "모닝 시황 재료 수집·숫자 확정", "actor": { "duty": "rsc-03-T10" }, "executor": "aside", "duty": "rsc-03-T10", "manual_minutes": 30, "message": "해외 마감·환율·지수 재료 수집 작업을 만들었습니다" },
+    { "after": 3, "do": "start", "task": "data", "message": "공개 시장 데이터를 모읍니다" },
+    { "after": 2, "do": "create", "task": "cal", "parent": "brief", "title": "오늘 경제 이벤트 일정 정리", "actor": { "duty": "rsc-03-T06" }, "executor": "claude", "duty": "rsc-03-T06", "manual_minutes": 15, "message": "오늘 이벤트 일정 정리 작업을 만들었습니다" },
+    { "after": 2, "do": "start", "task": "cal", "message": "경제지표·실적 발표 일정을 모읍니다" },
+    { "after": 18, "do": "start", "task": "data", "executor": "claude", "message": "모은 숫자를 원자료와 대조해 확정합니다" },
+    { "after": 6, "do": "complete", "task": "cal", "message": "이벤트 일정 정리 완료(가상 3건)" },
+    { "after": 14, "do": "complete", "task": "data", "message": "숫자 확정 — 출처·기준 시각 기록" },
+    { "after": 2, "do": "create", "task": "draft", "parent": "brief", "title": "모닝 브리핑 원고", "actor": { "duty": "com-01-T05" }, "executor": "aside", "duty": "com-01-T05", "manual_minutes": 60, "message": "확정 숫자로 원고 작업을 만들었습니다" },
+    { "after": 2, "do": "start", "task": "draft", "message": "모닝 브리핑 초안을 씁니다" },
+    { "after": 26, "do": "handoff", "task": "draft", "to": { "staff": "med-01-e01", "team": "med-01" }, "executor": "claude", "kind": "work", "message": "편집장에게 초안을 넘깁니다" },
+    { "after": 20, "do": "review", "task": "draft", "reviewer": { "duty": "com-01-T07" }, "executor": "script", "message": "편집 완료 — 원고 기계 검사 요청" },
+    { "after": 8, "do": "review", "task": "draft", "reviewer": { "duty": "cmp-01-T02" }, "executor": "codex", "message": "기계 검사 통과(금지 패턴 0건) — 독립 검사 요청" },
+    { "after": 22, "do": "handoff", "task": "draft", "to": { "duty": "cmp-01-T03" }, "executor": "script", "kind": "work", "message": "독립 검사 통과(지적 0건) — 발행 관문으로 넘깁니다" },
+    {
+      "after": 6, "do": "approval", "task": "draft", "summary": "모닝 브리핑 게시 승인 요청 — 기계 검사·독립 검사 통과", "message": "서명 승인 대기열에 올렸습니다",
+      "on_approve": [
+        { "after": 2, "do": "handoff", "task": "draft", "to": { "duty": "com-02-T01" }, "executor": "aside", "kind": "publish", "message": "승인본을 게시 담당에게 넘깁니다" },
+        { "after": 3, "do": "start", "task": "draft", "message": "투자노트에 게시합니다(시뮬레이션 — 실제 게시 없음)" },
+        { "after": 14, "do": "review", "task": "draft", "reviewer": { "duty": "com-02-T04" }, "executor": "script", "message": "게시 완료 — 게시본·승인본 대조 요청" },
+        { "after": 6, "do": "complete", "task": "draft", "message": "대조 일치 — 모닝 브리핑 게시 완료" },
+        { "after": 3, "do": "complete", "task": "brief", "message": "모닝 브리핑 발행 완료" }
+      ],
+      "on_reject": [
+        { "after": 2, "do": "handoff", "task": "draft", "to": { "duty": "com-01-T05" }, "executor": "aside", "kind": "revision", "message": "대표 반려 — 게시하지 않고 작가에게 되돌립니다" },
+        { "after": 4, "do": "complete", "task": "draft", "outcome": "rejected", "message": "반려로 종료(게시 없음)" },
+        { "after": 2, "do": "complete", "task": "brief", "outcome": "rejected", "message": "오늘 모닝 브리핑은 게시하지 않습니다" }
+      ]
+    }
+  ]
+}

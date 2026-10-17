@@ -1,0 +1,44 @@
+{
+  "id": "anomaly",
+  "title": "이상 상황",
+  "description": "커밋 전 비밀값 스캔 경고 → 백업 작업 막힘 → 관제 엔지니어 확인·경보 → 예약 작업 일시 정지 → 보안 정책관 확인 → 제외 규칙 승인 → 재스캔 통과 → 재개",
+  "order": 40,
+  "start": "13:30",
+  "virtual_minutes": 45,
+  "steps": [
+    { "after": 0, "do": "create", "task": "backup", "title": "원격 백업 push(정기)", "actor": { "duty": "itx-01-T02" }, "executor": "script", "duty": "itx-01-T02", "manual_minutes": 10, "message": "정기 원격 백업 작업을 만들었습니다" },
+    { "after": 2, "do": "start", "task": "backup", "message": "백업 대상 파일을 모읍니다" },
+    { "after": 20, "do": "review", "task": "backup", "reviewer": { "duty": "cmp-03-T02" }, "executor": "script", "message": "커밋 전 비밀값·개인정보 스캔 요청" },
+    { "after": 14, "do": "handoff", "task": "backup", "to": { "duty": "itx-01-T02" }, "executor": "script", "kind": "revision", "message": "경고: 비밀값 모양 문자열 1건 탐지(가짜 시험값) — push 중단 요청" },
+    { "after": 2, "do": "block", "task": "backup", "reason": "비밀값 경고로 push 중단 — 관제 확인 대기" },
+    { "after": 4, "do": "create", "task": "incident", "parent": "backup", "title": "비밀값 경고 원인 확인·처리", "actor": { "duty": "itx-02-T01" }, "executor": "claude", "duty": "itx-02-T01", "manual_minutes": 30, "message": "관제: 경고를 접수했습니다" },
+    { "after": 2, "do": "start", "task": "incident", "message": "경고 위치와 값의 성격을 확인합니다" },
+    { "after": 6, "do": "create", "task": "alert", "parent": "incident", "title": "관제 경보 알림(본인 대화)", "actor": { "duty": "itx-02-T03" }, "executor": "script", "manual_minutes": 5, "message": "경보 알림 작업을 만들었습니다" },
+    { "after": 2, "do": "start", "task": "alert", "message": "대표 본인 대화로 경보를 보냅니다(시뮬레이션)" },
+    { "after": 4, "do": "complete", "task": "alert", "message": "경보 1건 전달(시뮬레이션)" },
+    { "after": 4, "do": "status", "actor": { "duty": "itx-01-T02" }, "status": "offline", "message": "재시도 방지: 백업 예약 작업 일시 정지" },
+    { "after": 24, "do": "review", "task": "incident", "reviewer": { "duty": "cmp-03-T01" }, "executor": "claude", "message": "탐지 값이 실제 키가 아닌 시험값인지 확인 요청" },
+    { "after": 18, "do": "handoff", "task": "incident", "to": { "duty": "itx-02-T01" }, "executor": "claude", "kind": "work", "message": "확인: 시험 데이터 폴더의 가짜 값 — 실제 노출 없음" },
+    {
+      "after": 3, "do": "approval", "task": "incident", "summary": "백업 제외 규칙 추가 승인 요청 — 시험 데이터 폴더를 백업 대상에서 제외", "message": "규칙 변경 승인을 요청합니다",
+      "on_approve": [
+        { "after": 2, "do": "start", "task": "incident", "executor": "script", "message": "제외 규칙을 적용합니다" },
+        { "after": 16, "do": "complete", "task": "incident", "message": "원인 처리 완료 — 제외 규칙 적용, 재발 방지 기록" },
+        { "after": 3, "do": "status", "actor": { "duty": "itx-01-T02" }, "status": "idle", "message": "백업 예약 작업 재개" },
+        { "after": 2, "do": "start", "task": "backup", "message": "제외 규칙 적용 뒤 다시 시도합니다" },
+        { "after": 12, "do": "review", "task": "backup", "reviewer": { "duty": "cmp-03-T02" }, "executor": "script", "message": "재스캔 요청" },
+        { "after": 10, "do": "handoff", "task": "backup", "to": { "duty": "itx-01-T02" }, "executor": "script", "kind": "work", "message": "재스캔 통과(탐지 0건)" },
+        { "after": 6, "do": "complete", "task": "backup", "message": "원격 백업 push 완료" }
+      ],
+      "on_reject": [
+        { "after": 2, "do": "start", "task": "incident", "executor": "script", "message": "규칙은 바꾸지 않고 이번 백업에서만 해당 파일을 뺍니다" },
+        { "after": 12, "do": "complete", "task": "incident", "message": "원인 처리 완료 — 이번 회차만 수동 제외" },
+        { "after": 3, "do": "status", "actor": { "duty": "itx-01-T02" }, "status": "idle", "message": "백업 예약 작업 재개" },
+        { "after": 2, "do": "start", "task": "backup", "message": "해당 파일을 뺀 뒤 다시 시도합니다" },
+        { "after": 12, "do": "review", "task": "backup", "reviewer": { "duty": "cmp-03-T02" }, "executor": "script", "message": "재스캔 요청" },
+        { "after": 10, "do": "handoff", "task": "backup", "to": { "duty": "itx-01-T02" }, "executor": "script", "kind": "work", "message": "재스캔 통과(탐지 0건)" },
+        { "after": 6, "do": "complete", "task": "backup", "message": "원격 백업 push 완료" }
+      ]
+    }
+  ]
+}

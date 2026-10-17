@@ -1,0 +1,45 @@
+{
+  "id": "closing-briefing",
+  "title": "마감 브리핑",
+  "description": "수급·이벤트 결과 수집 → 숫자 확정 → 작가 초안 → 편집장 → 기계 검사 → 독립 검사관 수정 요청 → 작가 수정 → 재검사 → 발행 관문 → 대표 승인 → 게시(시뮬레이션)",
+  "order": 20,
+  "start": "15:40",
+  "virtual_minutes": 60,
+  "steps": [
+    { "after": 0, "do": "create", "task": "brief", "title": "마감 브리핑 발행", "actor": { "duty": "NEW-01", "staff": "ops-02-e01", "team": "ops-02" }, "executor": "claude", "message": "오늘 마감 브리핑 작업 카드를 배정했습니다" },
+    { "after": 3, "do": "create", "task": "flow", "parent": "brief", "title": "국내 투자자별 수급 수집", "actor": { "duty": "rsc-03-T08" }, "executor": "aside", "duty": "rsc-03-T08", "manual_minutes": 15, "message": "장 마감 수급 자료 수집 작업을 만들었습니다" },
+    { "after": 2, "do": "start", "task": "flow", "message": "공개 수급 자료를 모읍니다" },
+    { "after": 2, "do": "create", "task": "events", "parent": "brief", "title": "이벤트 일정 재확인·결과 기입", "actor": { "duty": "rsc-03-T07" }, "executor": "claude", "duty": "rsc-03-T07", "manual_minutes": 15, "message": "오늘 발표된 지표의 결과 기입 작업을 만들었습니다" },
+    { "after": 2, "do": "start", "task": "events", "message": "발표 결과를 일정표에 기입합니다" },
+    { "after": 12, "do": "complete", "task": "flow", "message": "수급 자료 수집 완료" },
+    { "after": 2, "do": "create", "task": "data", "parent": "brief", "title": "마감 시황 숫자 확정", "actor": { "duty": "rsc-03-T10" }, "executor": "claude", "duty": "rsc-03-T10", "manual_minutes": 25, "message": "마감 숫자 확정 작업을 만들었습니다" },
+    { "after": 2, "do": "start", "task": "data", "message": "지수·환율·수급 숫자를 원자료와 대조합니다" },
+    { "after": 6, "do": "complete", "task": "events", "message": "이벤트 결과 기입 완료" },
+    { "after": 10, "do": "complete", "task": "data", "message": "숫자 확정 — 기준 시각 기록" },
+    { "after": 2, "do": "create", "task": "draft", "parent": "brief", "title": "마감 브리핑 원고", "actor": { "duty": "com-01-T05" }, "executor": "aside", "duty": "com-01-T05", "manual_minutes": 50, "message": "확정 숫자로 원고 작업을 만들었습니다" },
+    { "after": 2, "do": "start", "task": "draft", "message": "마감 브리핑 초안을 씁니다" },
+    { "after": 20, "do": "handoff", "task": "draft", "to": { "staff": "med-01-e01", "team": "med-01" }, "executor": "claude", "kind": "work", "message": "편집장에게 초안을 넘깁니다" },
+    { "after": 14, "do": "review", "task": "draft", "reviewer": { "duty": "com-01-T07" }, "executor": "script", "message": "편집 완료 — 원고 기계 검사 요청" },
+    { "after": 8, "do": "review", "task": "draft", "reviewer": { "duty": "cmp-01-T02" }, "executor": "codex", "message": "기계 검사 통과 — 독립 검사 요청" },
+    { "after": 16, "do": "handoff", "task": "draft", "to": { "duty": "com-01-T05" }, "executor": "aside", "kind": "revision", "message": "수정 요청 2건: 등락률 표기와 기준 시각이 원자료와 다름(가상 사례)" },
+    { "after": 3, "do": "start", "task": "draft", "message": "지적된 두 곳을 고칩니다" },
+    { "after": 14, "do": "review", "task": "draft", "reviewer": { "duty": "com-01-T07" }, "executor": "script", "message": "수정본 기계 검사 요청" },
+    { "after": 6, "do": "review", "task": "draft", "reviewer": { "duty": "cmp-01-T02" }, "executor": "codex", "message": "기계 검사 통과 — 수정본 독립 재검사 요청" },
+    { "after": 12, "do": "handoff", "task": "draft", "to": { "duty": "cmp-01-T03" }, "executor": "script", "kind": "work", "message": "재검사 통과(남은 지적 0건) — 발행 관문으로 넘깁니다" },
+    {
+      "after": 5, "do": "approval", "task": "draft", "summary": "마감 브리핑 게시 승인 요청 — 수정 1회 뒤 검사 통과", "message": "서명 승인 대기열에 올렸습니다",
+      "on_approve": [
+        { "after": 2, "do": "handoff", "task": "draft", "to": { "duty": "com-02-T01" }, "executor": "aside", "kind": "publish", "message": "승인본을 게시 담당에게 넘깁니다" },
+        { "after": 3, "do": "start", "task": "draft", "message": "투자노트에 게시합니다(시뮬레이션 — 실제 게시 없음)" },
+        { "after": 12, "do": "review", "task": "draft", "reviewer": { "duty": "com-02-T04" }, "executor": "script", "message": "게시 완료 — 게시본·승인본 대조 요청" },
+        { "after": 5, "do": "complete", "task": "draft", "message": "대조 일치 — 마감 브리핑 게시 완료" },
+        { "after": 3, "do": "complete", "task": "brief", "message": "마감 브리핑 발행 완료" }
+      ],
+      "on_reject": [
+        { "after": 2, "do": "handoff", "task": "draft", "to": { "duty": "com-01-T05" }, "executor": "aside", "kind": "revision", "message": "대표 반려 — 게시하지 않고 작가에게 되돌립니다" },
+        { "after": 4, "do": "complete", "task": "draft", "outcome": "rejected", "message": "반려로 종료(게시 없음)" },
+        { "after": 2, "do": "complete", "task": "brief", "outcome": "rejected", "message": "오늘 마감 브리핑은 게시하지 않습니다" }
+      ]
+    }
+  ]
+}

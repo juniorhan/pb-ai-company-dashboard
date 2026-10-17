@@ -1,0 +1,18 @@
+{
+  "id": "day",
+  "title": "하루 압축 재생",
+  "description": "06:00~18:30 하루를 압축해 재생하고 다음 날로 넘어가 반복합니다(1x 약 15분, 5x 약 3분). 모닝 브리핑 → 리포트 정리 → 이상 상황 → 마감 브리핑, 사이사이 한가한 활동",
+  "order": 0,
+  "start": "06:00",
+  "segments": [
+    { "idle": true, "until": "06:30", "real_seconds": 20 },
+    { "scenario": "morning-briefing" },
+    { "idle": true, "until": "10:00", "real_seconds": 40 },
+    { "scenario": "report-digest" },
+    { "idle": true, "until": "13:30", "real_seconds": 40 },
+    { "scenario": "anomaly" },
+    { "idle": true, "until": "15:40", "real_seconds": 30 },
+    { "scenario": "closing-briefing" },
+    { "idle": true, "until": "18:30", "real_seconds": 30 }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "id": "idle-morning",
+  "title": "한가한 오전",
+  "description": "큰 흐름 없이 직원들이 담당 업무를 조금씩 처리하는 오전(09:00~12:00)을 3분에 걸쳐 반복 재생합니다",
+  "order": 50,
+  "start": "09:00",
+  "segments": [
+    { "idle": true, "until": "12:00", "real_seconds": 180 }
+  ]
+}

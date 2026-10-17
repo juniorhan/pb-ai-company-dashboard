@@ -1,0 +1,39 @@
+{
+  "id": "report-digest",
+  "title": "증권사 리포트 정리",
+  "description": "리포트 원문 수집 → 리서치 원본 1장 → 숫자 검증 → 반론 검토(다른 회사 모델) → 의견 추적·채점 → 콜 원장 기록 제안(최종 판정은 대표 몫)",
+  "order": 30,
+  "start": "10:00",
+  "virtual_minutes": 90,
+  "steps": [
+    { "after": 0, "do": "create", "task": "digest", "title": "증권사 리포트 정리(오늘 발간분)", "actor": { "duty": "rsc-01-T02" }, "executor": "claude", "message": "오늘 발간 리포트 정리 작업을 만들었습니다" },
+    { "after": 3, "do": "create", "task": "collect", "parent": "digest", "title": "증권사 리포트 원문 수집", "actor": { "duty": "rsc-01-T01" }, "executor": "aside", "duty": "rsc-01-T01", "manual_minutes": 20, "message": "원문 수집 작업을 만들었습니다" },
+    { "after": 2, "do": "start", "task": "collect", "message": "공개 리포트 원문을 모읍니다(가상 3건)" },
+    { "after": 18, "do": "complete", "task": "collect", "message": "원문 3건 수집 완료(가상)" },
+    { "after": 2, "do": "create", "task": "card", "parent": "digest", "title": "리서치 원본 1장 작성", "actor": { "duty": "rsc-01-T02" }, "executor": "claude", "duty": "rsc-01-T02", "manual_minutes": 45, "message": "리서치 원본 작업을 만들었습니다" },
+    { "after": 2, "do": "start", "task": "card", "message": "핵심 주장·근거·숫자를 1장으로 정리합니다" },
+    { "after": 24, "do": "start", "task": "card", "executor": "script", "message": "목표가 산식·표 정합성을 계산으로 검증합니다" },
+    { "after": 12, "do": "review", "task": "card", "reviewer": { "duty": "cmp-04-T01" }, "executor": "codex", "message": "반론 검토 요청(다른 회사 모델)" },
+    { "after": 18, "do": "handoff", "task": "card", "to": { "duty": "rsc-01-T02" }, "executor": "claude", "kind": "revision", "message": "반론 2건 보강 요청 — 하방 시나리오·반증 조건(가상 사례)" },
+    { "after": 3, "do": "start", "task": "card", "message": "반론·반증 조건을 보강합니다" },
+    { "after": 12, "do": "complete", "task": "card", "message": "리서치 원본 완료 — 반론 반영" },
+    { "after": 2, "do": "create", "task": "track", "parent": "digest", "title": "애널리스트 의견 변화 추적 기록", "actor": { "duty": "rsc-04-T06" }, "executor": "claude", "duty": "rsc-04-T06", "manual_minutes": 20, "message": "의견 추적 작업을 만들었습니다" },
+    { "after": 2, "do": "start", "task": "track", "message": "의견 변화를 기록합니다(가상)" },
+    { "after": 14, "do": "start", "task": "track", "executor": "script", "message": "과거 적중 이력과 대조해 채점합니다" },
+    { "after": 12, "do": "complete", "task": "track", "message": "추적 기록·채점 완료" },
+    { "after": 2, "do": "create", "task": "ledger", "parent": "digest", "title": "콜 원장 기록 제안", "actor": { "staff": "inv-04-e03", "team": "inv-04" }, "executor": "claude", "manual_minutes": 15, "message": "콜 원장 기록 제안 작업을 만들었습니다" },
+    { "after": 2, "do": "start", "task": "ledger", "message": "판정 없이 사실만 담은 기록 제안서를 만듭니다" },
+    {
+      "after": 14, "do": "approval", "task": "ledger", "summary": "콜 원장 기록 제안 — 최종 판정은 대표 몫", "message": "대표 판정을 요청합니다",
+      "on_approve": [
+        { "after": 2, "do": "start", "task": "ledger", "executor": "script", "message": "대표가 확정한 내용만 원장에 기록합니다" },
+        { "after": 10, "do": "complete", "task": "ledger", "message": "원장 기록 완료" },
+        { "after": 3, "do": "complete", "task": "digest", "message": "증권사 리포트 정리 완료" }
+      ],
+      "on_reject": [
+        { "after": 3, "do": "complete", "task": "ledger", "outcome": "rejected", "message": "대표 보류 — 원장에 기록하지 않음" },
+        { "after": 3, "do": "complete", "task": "digest", "message": "리포트 정리 완료(원장 기록 보류)" }
+      ]
+    }
+  ]
+}

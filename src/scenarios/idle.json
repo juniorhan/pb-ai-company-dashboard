@@ -1,0 +1,7 @@
+{
+  "rate_per_min": 18,
+  "duration_seconds": [10, 24],
+  "review_chance": 0.3,
+  "weights": { "active": 3, "building": 2, "planned": 1, "paused": 0 },
+  "manual_minutes": [5, 25]
+}
