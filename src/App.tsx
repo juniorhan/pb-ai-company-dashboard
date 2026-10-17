@@ -166,6 +166,12 @@ export function App({ initialRuntime }: AppProps = {}) {
     if (b.kind === 'ready' && b.owned) b.runtime.store.dispose();
   }, []);
 
+  // 개발 서버 전용 확인 창구: 브라우저 자동 점검이 지금 화면에 붙은 스토어를 읽는다(StrictMode에서 버려진 쪽이 아니라). 배포 빌드에서는 지워진다.
+  useEffect(() => {
+    if (!import.meta.env.DEV || boot.kind !== 'ready') return;
+    (window as unknown as { __pbai?: { store: Runtime['store'] } }).__pbai = { store: boot.runtime.store };
+  }, [boot]);
+
   const swap = useCallback(async (make: (current: Runtime) => Promise<Runtime>, failure: string): Promise<void> => {
     const cur = bootRef.current;
     if (cur.kind !== 'ready' || busyRef.current) return;

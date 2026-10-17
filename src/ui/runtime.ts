@@ -54,8 +54,6 @@ export async function createRuntime(search: string = typeof location !== 'undefi
   const source = createSource(config, index);
   const store = createDashboardStore(index, source, orgMeta);
   source.start();
-  // 개발 서버 전용 확인 창구(브라우저 자동 점검이 스토어 상태를 읽는다). 배포 빌드에서는 지워진다.
-  if (import.meta.env.DEV && typeof window !== 'undefined') (window as unknown as { __pbai?: { store: DashboardStore } }).__pbai = { store };
   return { ...base, store, mode: 'core' };
 }
 
