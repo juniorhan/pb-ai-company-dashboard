@@ -1,0 +1,11 @@
+node_modules
+dist
+coverage
+.vite
+*.log
+.DS_Store
+Thumbs.db
+# 각 PC 설정(로컬 경로)은 저장소에 올리지 않는다
+.env
+.env.local
+.env.*.local
