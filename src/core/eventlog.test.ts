@@ -277,6 +277,23 @@ describe('maxEvents', () => {
     expect(log.add([mk('old', 0, 'task_created', { title: 'Y' })]).added).toBe(1);                   // 비우면 기준 시각도 처음으로
   });
 
+  it('지연 이벤트만 계속 와도 기억하는 id는 상한(maxEvents×4) 안이고, 보관 중인 이벤트의 id는 잊지 않는다', () => {
+    const who = index.org.staff[0]!.id;
+    const t = (sec: number): string => new Date(Date.parse('2026-10-17T00:00:00Z') + sec * 1000).toISOString();
+    const mk = (id: string, sec: number): PbEvent => ({
+      event_id: id, ts: t(sec), type: 'staff_status_changed', staff_id: who, executor: 'script', task_id: null, message: id, payload: { status: 'idle' },
+    });
+    const log = new EventLog(index, { maxEvents: 1 });
+    log.add([mk('a', 10)]);
+    log.add([mk('b', 20)]);                                                 // a를 버림 → 기준 시각 10초
+    for (let k = 0; k < 10; k += 1) log.add(Array.from({ length: 1000 }, (_, i) => mk(`late-${k}-${i}`, 5)));
+    expect(log.stale).toBe(10000);
+    const seen = (log as unknown as { seen: Set<string> }).seen;
+    expect(seen.size).toBeLessThanOrEqual(4);
+    expect(seen.has('b')).toBe(true);
+    expect(log.add([mk('b', 20)])).toEqual({ added: 0, duplicates: 1, stale: 0 });                  // 보관 중인 이벤트는 다시 와도 중복
+  });
+
   it('기본 상한은 20000건', () => {
     const big: PbEvent[] = Array.from({ length: 20050 }, (_, i) => ({
       event_id: `b-${i}`, ts: new Date(Date.parse('2026-10-17T00:00:00Z') + i * 1000).toISOString(), type: 'staff_status_changed', staff_id: index.org.staff[0]!.id,

@@ -98,6 +98,22 @@ describe('깨진 사본은 OrgError', () => {
     expect(bad((o) => { o.hq[0]!.id = CEO_ID; }).message).toContain('id 중복');
   });
 
+  it('예약된 이름(__proto__·constructor 등)을 id로 쓰면 실패(본부·팀·직원·업무·승계표)', () => {
+    const cases: ((o: Org) => void)[] = [
+      (o) => { o.staff[0]!.id = '__proto__'; },
+      (o) => { o.depts[0]!.id = 'constructor'; },
+      (o) => { o.teams[0]!.id = 'toString'; },
+      (o) => { o.staff[0]!.duties.push({ id: 'valueOf', title: 'x' }); },
+      (o) => { Object.defineProperty(o.legacy.teams, 'hasOwnProperty', { value: o.teams[0]!.id, enumerable: true }); },
+    ];
+    for (const change of cases) {
+      const o = fresh();
+      change(o);
+      expect(checkOrg(o).some((p) => p.startsWith('예약된 이름은 id로 쓸 수 없음')), String(change)).toBe(true);
+    }
+    expect(checkOrg(fresh())).toEqual([]);
+  });
+
   it('형식 오류(zod)', () => {
     expect(() => parseOrg({ ...fresh(), format: 2 })).toThrow(OrgError);
     expect(() => parseOrg({})).toThrow(OrgError);
@@ -151,6 +167,10 @@ describe('indexOrg', () => {
     expect(index.actorDept(CEO_ID)).toBeNull();
     expect(index.actorDept(org.hq[0]!.id)).toBeNull();
     expect(index.actorDept('zzz')).toBeNull();
+  });
+
+  it('resolveTeam: 상속 속성 이름(constructor·__proto__)은 승계표로 보지 않는다(null)', () => {
+    for (const name of ['constructor', '__proto__', 'toString']) expect(index.resolveTeam(name), name).toBeNull();
   });
 
   it('resolveTeam: 현재 팀은 그대로, 옛 팀은 승계 팀으로(여러 단계도), 모르면 null', () => {

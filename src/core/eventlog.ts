@@ -83,7 +83,10 @@ export class EventLog {
       fresh.push({ e, t });
     }
     this.staleCount += stale;
-    if (!fresh.length) return { added: 0, duplicates, stale };
+    if (!fresh.length) {
+      this.capSeen();                       // 지연·중복만 와도 기억하는 id가 끝없이 늘지 않게
+      return { added: 0, duplicates, stale };
+    }
     fresh.sort((a, b) => a.t - b.t);        // 안정 정렬: 같은 시각은 받은 순서
 
     const lastTime = this.times.length ? this.times[this.times.length - 1]! : Number.NEGATIVE_INFINITY;
@@ -116,6 +119,7 @@ export class EventLog {
     }
 
     this.trim();
+    this.capSeen();
     this.latestCache = null;
     this.eventsCache = null;
     return { added: fresh.length, duplicates, stale };
@@ -231,15 +235,17 @@ export class EventLog {
     this.evs.splice(0, excess);
     this.times.splice(0, excess);
     this.snaps = this.snaps.filter((s) => s.n > excess).map((s) => ({ n: s.n - excess, state: s.state }));
-    // 버린 이벤트의 id도 한동안 기억해 늦게 다시 와도 중복으로 막는다(무한히 늘지 않게 상한을 둔다)
-    const keepIds = this.maxEvents * 4;
-    if (this.seen.size > keepIds) {
-      let drop = this.seen.size - this.maxEvents * 2;
-      for (const id of this.seen) {
-        if (drop <= 0) break;
-        this.seen.delete(id);
-        drop -= 1;
-      }
-    }
+  }
+
+  /**
+   * 버린 이벤트의 id도 한동안 기억해 늦게 다시 와도 중복으로 막는다. 기억하는 id가 maxEvents×4를 넘으면
+   * 보관 중인 이벤트의 id는 모두 남기고, 나머지는 최근에 받은 것부터 maxEvents×2개만 남긴다.
+   */
+  private capSeen(): void {
+    if (this.seen.size <= this.maxEvents * 4) return;
+    const kept = new Set(this.evs.map((e) => e.event_id));
+    const others = [...this.seen].filter((id) => !kept.has(id));
+    for (const id of others.slice(Math.max(0, others.length - this.maxEvents * 2))) kept.add(id);
+    this.seen = kept;
   }
 }

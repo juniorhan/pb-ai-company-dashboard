@@ -111,6 +111,22 @@ describe('SimulatorSource 기본', () => {
     for (const b of batches) expect(b.length).toBeGreaterThan(0);
   });
 
+  it('시뮬레이터 이벤트도 같은 스키마 검사를 지난다: 어긋난 이벤트는 내지 않고 경고로 남긴다', () => {
+    const lib = parseScenarioFiles({
+      ...miniFiles,
+      'burst.json': { ...miniFiles['burst.json'], steps: [{ ...miniFiles['burst.json'].steps[0]!, title: 'x'.repeat(2001) }, ...miniFiles['burst.json'].steps.slice(1)] },
+    });
+    const { source, clock, batches } = build({}, lib);
+    source.start();
+    clock.run(250);
+    expect(batches).toHaveLength(1);
+    expect(batches[0]!.map((e) => e.type)).toEqual(['task_started', 'task_completed']);        // 제목이 2000자를 넘는 생성 이벤트만 빠진다
+    expect(source.warnings).toHaveLength(1);                                                        // 첫 사유(제목이 들어간 message 또는 payload.title)
+    expect(source.warnings[0]).toMatch(/^형식이 맞지 않는 시뮬레이션 이벤트를 건너뜀: .+: 너무 깁니다\(최대 2000자\)$/);
+    source.control.setScenario('burst-plan');
+    expect(source.warnings).toEqual([]);                                                           // 시나리오를 바꾸면 새로 센다
+  });
+
   it('상태의 lastEventTs는 가장 늦은 이벤트 ts이고, batch가 나갈 때마다 상태도 다시 알린다', () => {
     const { source, clock, statuses, events } = build();
     source.start();

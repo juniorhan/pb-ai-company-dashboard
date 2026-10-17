@@ -1,5 +1,6 @@
 // 시뮬레이션 소스: SimEngine(결정적 엔진)을 실제 시계 tick으로 돌려 이벤트를 낸다. 재생·속도·시나리오·자동 승인 조작(SimControl)을 함께 준다.
 // 시계·타이머를 주입할 수 있어 시험에서는 가짜 시계로 끝까지 돌린다(docs/DESIGN.md §5).
+import { parseEvent } from '../data/schema';
 import { SimEngine, kstDateOf } from '../sim/engine';
 import type { ScenarioLibrary } from '../sim/load';
 import type { EventSource, OrgIndex, PbEvent, ScenarioInfo, SimControl } from '../types';
@@ -8,6 +9,7 @@ import { SourceBase, safeCall } from './base';
 export const SIM_SPEEDS = [1, 2, 5] as const;
 const TICK_NOTIFY_MIN_MS = 250;           // subscribeTick은 초당 최대 4회
 const MAX_STEP_REAL_MS = 60_000;          // 절전·백그라운드 뒤에 한꺼번에 몇 시간을 돌리지 않도록 tick 한 번이 앞으로 보내는 실제 시간 상한
+const MAX_INVALID_NOTES = 20;             // 형식 검사에서 떨어진 이벤트 경고는 사유별로 이만큼만 남긴다
 
 export interface SimulatorOptions {
   index: OrgIndex;
@@ -51,6 +53,7 @@ export class SimulatorSource extends SourceBase implements EventSource {
   private readonly tickMs: number;
   private readonly resetHandlers = new Set<() => void>();
   private readonly tickListeners = new Set<() => void>();
+  private readonly invalid: string[] = [];   // 형식 검사에서 떨어진 시뮬레이션 이벤트의 사유
 
   private started = false;
   private playing = true;
@@ -80,7 +83,7 @@ export class SimulatorSource extends SourceBase implements EventSource {
 
   /** 시나리오를 읽을 때·돌릴 때 생긴 경고(같은 문구는 한 번만) */
   get warnings(): readonly string[] {
-    return [...this.library.warnings, ...this.engine.warnings];
+    return [...this.library.warnings, ...this.engine.warnings, ...this.invalid];
   }
 
   onReset(handler: () => void): () => void {
@@ -141,7 +144,18 @@ export class SimulatorSource extends SourceBase implements EventSource {
 
   private publish(batch: PbEvent[]): void {
     if (!batch.length) return;
-    this.emitBatch(batch);
+    // 시뮬레이터 이벤트도 실제 기록과 같은 스키마 검사를 지난다(docs/DESIGN.md §7). 어긋난 것은 내지 않고 경고로 남긴다.
+    const ok: PbEvent[] = [];
+    for (const e of batch) {
+      const r = parseEvent(e);
+      if (r.ok) ok.push(r.event);
+      else {
+        const message = `형식이 맞지 않는 시뮬레이션 이벤트를 건너뜀: ${r.error}`;
+        if (!this.invalid.includes(message) && this.invalid.length < MAX_INVALID_NOTES) this.invalid.push(message);
+      }
+    }
+    if (!ok.length) return;
+    this.emitBatch(ok);
     this.republishStatus();             // lastEventTs가 바뀐 상태를 알린다
   }
 
@@ -197,6 +211,7 @@ export class SimulatorSource extends SourceBase implements EventSource {
       getScenario: () => this.engine.scenarioId,
       setScenario: (id) => {
         this.engine.reset(id);
+        this.invalid.length = 0;          // 엔진 경고처럼 시나리오를 바꾸면 새로 센다
         this.lastReal = this.now();
         this.clearLastEvent();            // 새 기록은 처음부터: 옛 시나리오의 마지막 이벤트 시각을 남기지 않는다
         for (const handler of [...this.resetHandlers]) safeCall(handler);

@@ -2,7 +2,7 @@
 // 개발 서버는 /__pbai/org로 정본을 바로 준다. 숫자(본부·팀·직원 수)는 고정하지 않는다(docs/DECISIONS.md D-3).
 import { z } from 'zod';
 import bundledOrg from './org.json';
-import { CEO_ID, DEPT_COLOR_SLOTS, UNASSIGNED_PREFIX } from '../types';
+import { CEO_ID, DEPT_COLOR_SLOTS, UNASSIGNED_PREFIX, isReservedId } from '../types';
 import type { Org, OrgDept, OrgExpansion, OrgIndex, OrgStaff, OrgTeam } from '../types';
 
 const executor = z.enum(['claude', 'codex', 'aside', 'script', 'human']);
@@ -59,6 +59,9 @@ export function checkOrg(org: Org): string[] {
     for (const c of s.checker_staff) if (!staff.has(c)) problems.push(`직원 ${s.id}: 없는 검증자 ${c}`);
   }
   for (const e of org.expansion) if (!teams.has(e.team)) problems.push(`확장 대기 '${e.role}': 없는 팀 ${e.team}`);
+  // 예약된 이름(__proto__·constructor 등)은 상태 레코드·조회 표의 키가 되므로 id로 받지 않는다(이벤트 검사와 같은 규칙)
+  const otherIds = [...org.staff.flatMap((s) => s.duties.map((d) => d.id)), ...Object.keys(org.legacy.teams), ...Object.keys(org.legacy.depts)];
+  for (const id of [...seen, ...otherIds]) if (isReservedId(id)) problems.push(`예약된 이름은 id로 쓸 수 없음: ${id}`);
   return problems;
 }
 
@@ -139,7 +142,7 @@ export function indexOrg(org: Org): OrgIndex {
       let cur: string | undefined = id;
       for (let hop = 0; cur && hop < 5; hop++) {
         if (teams.has(cur)) return cur;
-        cur = org.legacy.teams[cur];
+        cur = Object.prototype.hasOwnProperty.call(org.legacy.teams, cur) ? org.legacy.teams[cur] : undefined;   // 상속 속성(constructor 등)은 승계표가 아니다
       }
       return null;
     },
