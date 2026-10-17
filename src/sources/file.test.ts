@@ -1,7 +1,7 @@
 // FileSource: 사용자가 연 파일을 한 번 읽어 batch 1개로 내고 ended로 끝나는지 확인한다.
 import { describe, expect, it } from 'vitest';
 import type { EventSource, PbEvent, SourceStatus } from '../types';
-import { createFileSource } from './file';
+import { MAX_FILE_BYTES, createFileSource } from './file';
 import { createFileSource as reExported } from './index';
 import type { ReadableFile } from './file';
 
@@ -50,6 +50,22 @@ describe('FileSource', () => {
     expect(batches[0]!.map((e) => e.event_id)).toEqual(['f1', 'f2', 'f3']);
     expect(statuses.at(-1)).toMatchObject({ state: 'ended', detail: '읽음 3건 · 잘못된 줄 1', lastEventTs: '2026-10-17T09:00:03+09:00' });
     expect(file.reads).toBe(1);
+  });
+
+  it('50MB보다 큰 파일은 읽지 않고 error(크기와 상한을 알린다). 상한 이하는 읽는다', async () => {
+    const big = Object.assign(fileOf('big.jsonl', () => Promise.resolve(jsonl(1))), { size: MAX_FILE_BYTES + 1 });   // 같은 객체에 크기를 붙인다(reads를 그대로 센다)
+    const w = watch(big);
+    w.source.start();
+    await flush();
+    expect(big.reads).toBe(0);
+    expect(w.batches).toEqual([]);
+    expect(w.statuses.at(-1)).toMatchObject({ state: 'error', detail: '파일이 너무 큽니다(50.0MB) — 50MB 이하만 엽니다' });
+
+    const ok = Object.assign(fileOf('ok.jsonl', () => Promise.resolve(jsonl(1))), { size: MAX_FILE_BYTES });
+    const w2 = watch(ok);
+    w2.source.start();
+    await flush();
+    expect(w2.batches).toHaveLength(1);
   });
 
   it('JSON 배열 파일도 읽는다', async () => {

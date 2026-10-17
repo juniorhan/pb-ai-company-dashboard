@@ -140,6 +140,34 @@ describe('createSource: ws', () => {
   });
 });
 
+describe('createSource: 배포(공개 사이트)에서는 주소 지정(?url=)을 따르지 않는다(D-6)', () => {
+  it('jsonl은 주소를 무시하고 가짜 샘플(실연결 아님)만 읽는다', async () => {
+    const calls: string[] = [];
+    vi.stubGlobal('fetch', (url: string) => {
+      calls.push(url);
+      return Promise.resolve({ ok: true, status: 200, text: () => Promise.resolve('') });
+    });
+    vi.stubEnv('BASE_URL', '/pb-ai-company-dashboard/');
+    vi.stubEnv('DEV', false);
+    const prod = createSource(cfg({ source: 'jsonl', url: 'https://example.test/x.jsonl' }), index);
+    expect(prod).toMatchObject({ kind: 'jsonl', live: false, label: '가짜 샘플 기록' });
+    prod.start();
+    await vi.advanceTimersByTimeAsync(0);
+    prod.stop();
+    expect(calls).toEqual(['/pb-ai-company-dashboard/sample/events.sample.jsonl']);
+  });
+
+  it('ws는 연결하지 않고 이유를 알린다', () => {
+    vi.stubEnv('DEV', false);
+    const source = createSource(cfg({ source: 'ws', url: 'wss://example.test/live' }), index);
+    expect(source).toBeInstanceOf(StaticSource);
+    const { statuses } = collect(source);
+    source.start();
+    expect(statuses.at(-1)).toMatchObject({ state: 'error' });
+    expect(statuses.at(-1)!.detail).toContain('공개 사이트는 바깥 주소에 연결하지 않습니다');
+  });
+});
+
 describe('createSource: file', () => {
   it('파일을 열기 전의 빈 소스(상태 idle, 파일을 열어 주세요)', () => {
     const source = createSource(cfg({ source: 'file' }), index);
