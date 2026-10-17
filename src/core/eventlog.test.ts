@@ -70,7 +70,7 @@ describe('시험 입력', () => {
 describe('정렬·중복 제거', () => {
   it('순서대로 한 번에 넣으면 reduce 결과와 같다', () => {
     const log = new EventLog(index);
-    expect(log.add(stream)).toEqual({ added: stream.length, duplicates: 0 });
+    expect(log.add(stream)).toEqual({ added: stream.length, duplicates: 0, stale: 0 });
     expect(json(log.latest())).toBe(json(reference(stream)));
     expect(log.size).toBe(stream.length);
   });
@@ -93,7 +93,7 @@ describe('정렬·중복 제거', () => {
     expect(log.size).toBe(stream.length);
     expect(json(log.latest())).toBe(json(reference(expectedOrder(received))));
     expect(log.events().map((e) => e.event_id)).toEqual(expectedOrder(received).map((e) => e.event_id));
-  });
+  }, 30000);   // snapshotEvery=1은 일부러 무거운 설정(이 PC 약 7초). CI에서 기본 5초에 걸리지 않게 늘린다
 
   it('같은 ts는 받은 순서를 지킨다(나중 묶음의 같은 ts는 뒤)', () => {
     const mk = (id: string, sec: number): PbEvent => ({
@@ -111,7 +111,7 @@ describe('정렬·중복 제거', () => {
     log.add(stream);
     const before = log.latest();
     const again = log.add(stream.slice(0, 50));
-    expect(again).toEqual({ added: 0, duplicates: 50 });
+    expect(again).toEqual({ added: 0, duplicates: 50, stale: 0 });
     expect(log.latest()).toBe(before);                                  // 바뀐 게 없으면 같은 객체
     const events = log.events();
     log.add([]);
@@ -141,9 +141,11 @@ describe('정렬·중복 제거', () => {
 });
 
 describe('stateAt (되감기)', () => {
-  const sorted = expectedOrder(stream);
+  // 같은 ts는 받은 순서가 규칙이므로 기준 순서도 받은(섞은) 순서로 만든다. 같은 초의 두 이벤트는 순서에 따라 결과가 다를 수 있다.
+  const received = shuffle(stream, createRng(3));
+  const sorted = expectedOrder(received);
   const log = new EventLog(index, { snapshotEvery: 13 });
-  log.add(shuffle(stream, createRng(3)));
+  log.add(received);
 
   const prefix = (ts: string): PbEvent[] => sorted.filter((e) => time(e) <= Date.parse(ts));
 
@@ -247,6 +249,34 @@ describe('maxEvents', () => {
     expect(JSON.stringify(limited.latest())).toBe(before);
   });
 
+  it('버린 구간 안의 시각으로 늦게 온 이벤트는 받지 않고 센다(기준 상태 뒤에 붙여 시간순 재생을 깨뜨리지 않는다)', () => {
+    const who = index.org.staff[0]!.id;
+    const to = index.org.staff[1]!.id;
+    const t = (sec: number): string => new Date(Date.parse('2026-10-17T00:00:00Z') + sec * 1000).toISOString();
+    const mk = (id: string, sec: number, type: EventType, payload?: Record<string, unknown>): PbEvent => ({
+      event_id: id, ts: t(sec), type, staff_id: who, executor: 'claude', task_id: 'x1', message: id, ...(payload ? { payload } : {}),
+    });
+    const log = new EventLog(index, { maxEvents: 1 });
+    log.add([mk('c', 1, 'task_created', { title: 'X' })]);
+    log.add([mk('h', 3, 'task_handoff', { to })]);
+    log.add([mk('d', 4, 'task_completed')]);
+    const before = json(log.latest());
+    expect(log.stale).toBe(0);
+
+    const r = log.add([mk('s', 2, 'task_started')]);                        // 버린 c(1)·h(3) 사이의 시각
+    expect(r).toEqual({ added: 0, duplicates: 0, stale: 1 });
+    expect(log.stale).toBe(1);
+    expect(json(log.latest())).toBe(before);
+    expect(log.latest().tasks.x1!.owner).toBe(to);                         // 시간순 재생(c→s→h→d)과 같은 담당자
+    expect(log.add([mk('s', 2, 'task_started')])).toEqual({ added: 0, duplicates: 1, stale: 0 });   // 같은 id가 다시 오면 중복
+
+    const same = log.add([mk('h2', 3, 'staff_status_changed', { status: 'idle' })]);                  // 버린 마지막 시각과 같으면 받는다
+    expect(same.added).toBe(1);
+    log.clear();
+    expect(log.stale).toBe(0);
+    expect(log.add([mk('old', 0, 'task_created', { title: 'Y' })]).added).toBe(1);                   // 비우면 기준 시각도 처음으로
+  });
+
   it('기본 상한은 20000건', () => {
     const big: PbEvent[] = Array.from({ length: 20050 }, (_, i) => ({
       event_id: `b-${i}`, ts: new Date(Date.parse('2026-10-17T00:00:00Z') + i * 1000).toISOString(), type: 'staff_status_changed', staff_id: index.org.staff[0]!.id,
@@ -330,7 +360,7 @@ describe('density · marks · range · clear', () => {
     expect(log.marks()).toEqual([]);
     expect(json(log.latest())).toBe(json(initialState(index)));
     expect(json(log.stateAt(stream[10]!.ts))).toBe(json(initialState(index)));
-    expect(log.add(stream.slice(0, 40))).toEqual({ added: 40, duplicates: 0 });
+    expect(log.add(stream.slice(0, 40))).toEqual({ added: 40, duplicates: 0, stale: 0 });
     expect(json(log.latest())).toBe(json(reference(stream.slice(0, 40))));
   });
 });

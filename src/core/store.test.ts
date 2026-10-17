@@ -113,6 +113,20 @@ describe('getView', () => {
     expect(v1.state).toBe(v0.state);
     expect(v1.range).toEqual(v0.range);
   });
+
+  it('보관 구간보다 이른 이벤트를 건너뛰면 소스 상태 설명에 건수를 덧붙인다(상태는 그대로)', () => {
+    const source = new FakeSource();
+    const store = createDashboardStore(index, source, orgMeta);
+    source.emit(Array.from({ length: 20001 }, (_, i) => ev(i, 'task_started', 'x')));      // 기본 상한 20000건 → 가장 오래된 1건(0초)을 버린다
+    source.status({ state: 'live', detail: '새 기록', lastEventTs: null });
+    const v0 = store.getView();
+    expect(v0.source.status.detail).toBe('새 기록');
+    source.emit([ev(-1, 'task_started', 'x')]);                                              // 버린 구간보다 이르다
+    const v1 = store.getView();
+    expect(v1).not.toBe(v0);
+    expect(v1.state).toBe(v0.state);
+    expect(v1.source.status.detail).toBe('새 기록 · 보관 구간보다 이른 이벤트 1건은 반영하지 않음');
+  });
 });
 
 describe('알림 묶기', () => {

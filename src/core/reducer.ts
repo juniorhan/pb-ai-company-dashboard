@@ -5,7 +5,7 @@
 // 그 안의 '잎'(직원·작업·승인 객체와 그 안의 배열)은 고치지 않고 통째로 새로 만들어 바꿔 끼운다.
 // 그래서 그릇만 얕게 복사(cloneShell)하면 이전 상태와 잎을 안전하게 공유하는 스냅숏이 된다.
 // 2만 건 규모의 tasks 레코드를 이벤트마다 통째로 복사하면 너무 느리기 때문이다(EventLog는 applyInPlace를 직접 쓴다).
-import { CEO_ID, EXECUTORS, STAFF_STATUSES } from '../types';
+import { CEO_ID, EXECUTORS, STAFF_STATUSES, isReservedId } from '../types';
 import type {
   DashboardState, Executor, HandoffKind, OrgIndex, PbEvent, StaffState, StaffStatus, TaskState, TaskStatus,
 } from '../types';
@@ -248,6 +248,19 @@ function pruneApprovals(s: DashboardState): void {
   for (const d of decided.slice(0, decided.length - LIMITS.decidedApprovals)) delete s.approvals[d.id];
 }
 
+const KEY_PAYLOAD_FIELDS = ['to', 'reviewer', 'approval_id'] as const;
+/** 상태 레코드의 키로 쓰이는 칸(staff_id·task_id·payload의 to·reviewer·approval_id) 중 예약된 이름이 있는가 */
+function usesReservedId(e: PbEvent): boolean {
+  if (isReservedId(e.staff_id) || (typeof e.task_id === 'string' && isReservedId(e.task_id))) return true;
+  const p = e.payload;
+  if (!p) return false;
+  for (const k of KEY_PAYLOAD_FIELDS) {
+    const v = p[k];
+    if (typeof v === 'string' && isReservedId(v)) return true;
+  }
+  return false;
+}
+
 const isStaffStatus = (v: unknown): v is StaffStatus => typeof v === 'string' && (STAFF_STATUSES as string[]).includes(v);
 const HANDOFF_KINDS: readonly string[] = ['work', 'review', 'revision', 'publish'];
 
@@ -256,6 +269,11 @@ const HANDOFF_KINDS: readonly string[] = ['work', 'review', 'revision', 'publish
  */
 export function applyInPlace(s: DashboardState, e: PbEvent, index: OrgIndex): void {
   const p = e.payload;
+  // 상태 레코드의 키가 될 id에 예약된 이름(__proto__ 등)이 있으면 적용하지 않는다. 이벤트 검사가 먼저 거절하므로 이중 안전장치다.
+  if (usesReservedId(e)) {
+    warn(s, `예약된 이름을 id로 쓴 이벤트를 건너뜀: ${e.event_id}`);
+    return;
+  }
   s.seq += 1;
   s.lastTs = later(s.lastTs, e.ts);
   rollDay(s, e.ts);
@@ -380,6 +398,7 @@ function applyTaskEvent(s: DashboardState, e: PbEvent, index: OrgIndex, taskId: 
       }
       s.approvals[approvalId] = { ...approval, status: decision === 'approve' ? 'approved' : 'rejected', decidedAt: e.ts, auto: p?.auto === true };
       if (actorId !== CEO_ID) warn(s, `승인 결정 행위자가 대표가 아님: ${actorId}`);
+      if (e.executor !== 'human') warn(s, `승인 결정 실행 주체가 사람(human)이 아님: ${e.executor}`);
       updateTask(s, t, statusPatch('in_progress', e), e);                 // 승인 결정도 실행 주체를 바꾸지 않는다. 이어지는 이벤트가 정한다
       ensureStaff(s, approval.requestedBy, index);
       const requester = s.staff[approval.requestedBy];

@@ -1,10 +1,16 @@
 // 이벤트 스키마(docs/EVENT_SPEC.md §2·§3). 시뮬레이터·실제 기록 파일·WebSocket이 모두 이 검사를 지난다.
 // 공통 칸 + 종류별 payload를 검사하고, 모르는 추가 칸은 받아 준다(payload 안의 추가 칸은 그대로 둔다).
 import { z } from 'zod';
-import { EXECUTORS, STAFF_STATUSES } from '../types';
+import { EXECUTORS, STAFF_STATUSES, isReservedId } from '../types';
 import type { Executor, PbEvent, StaffStatus } from '../types';
 
-const text = z.string().min(1);
+// 길이 상한: 거대한 입력이 화면을 멈추지 않게 칸마다 둔다(EVENT_SPEC §2).
+export const MAX_ID_LENGTH = 200;
+export const MAX_TEXT_LENGTH = 2000;
+/** 상태의 키가 되는 id: 비어 있지 않고, 200자 이하, 예약된 이름(__proto__ 등)이 아님 */
+const id = z.string().min(1).max(MAX_ID_LENGTH).refine((v) => !isReservedId(v), '예약된 이름(__proto__ 등)은 id로 쓸 수 없습니다');
+const text = z.string().min(1).max(MAX_TEXT_LENGTH);
+const anyText = z.string().max(MAX_TEXT_LENGTH);     // 빈 문자열 허용
 const minutes = z.number().min(0);
 const executor = z.enum(EXECUTORS as [Executor, ...Executor[]]);
 const staffStatus = z.enum(STAFF_STATUSES as [StaffStatus, ...StaffStatus[]]);
@@ -12,39 +18,39 @@ const looseObject = z.looseObject;
 
 const common = {
   v: z.literal(1).optional(),
-  event_id: text,
+  event_id: id,
   ts: z.iso.datetime({ offset: true }),     // 시간대(Z 또는 ±hh:mm)가 있는 ISO 8601만
-  staff_id: text,
+  staff_id: id,
   executor,
-  message: z.string(),                      // 빈 문자열 허용
+  message: anyText,
 };
 
 export const EventSchema = z.discriminatedUnion('type', [
   z.object({
-    ...common, type: z.literal('task_created'), task_id: text,
-    payload: looseObject({ title: text, parent_task_id: text.optional(), duty: text.optional(), manual_minutes: minutes.optional() }),
+    ...common, type: z.literal('task_created'), task_id: id,
+    payload: looseObject({ title: text, parent_task_id: id.optional(), duty: text.optional(), manual_minutes: minutes.optional() }),
   }),
-  z.object({ ...common, type: z.literal('task_started'), task_id: text, payload: looseObject({}).optional() }),
+  z.object({ ...common, type: z.literal('task_started'), task_id: id, payload: looseObject({}).optional() }),
   z.object({
-    ...common, type: z.literal('task_handoff'), task_id: text,
-    payload: looseObject({ to: text, kind: z.enum(['work', 'review', 'revision', 'publish']).optional() }),
+    ...common, type: z.literal('task_handoff'), task_id: id,
+    payload: looseObject({ to: id, kind: z.enum(['work', 'review', 'revision', 'publish']).optional() }),
   }),
-  z.object({ ...common, type: z.literal('task_review_requested'), task_id: text, payload: looseObject({ reviewer: text }) }),
+  z.object({ ...common, type: z.literal('task_review_requested'), task_id: id, payload: looseObject({ reviewer: id }) }),
   z.object({
-    ...common, type: z.literal('approval_requested'), task_id: text,
-    payload: looseObject({ approval_id: text, summary: z.string() }),
+    ...common, type: z.literal('approval_requested'), task_id: id,
+    payload: looseObject({ approval_id: id, summary: anyText }),
   }),
   z.object({
-    ...common, type: z.literal('approval_decided'), task_id: text,
-    payload: looseObject({ approval_id: text, decision: z.enum(['approve', 'reject']), auto: z.boolean().optional() }),
+    ...common, type: z.literal('approval_decided'), task_id: id,
+    payload: looseObject({ approval_id: id, decision: z.enum(['approve', 'reject']), auto: z.boolean().optional() }),
   }),
-  z.object({ ...common, type: z.literal('task_blocked'), task_id: text, payload: looseObject({ reason: z.string() }) }),
+  z.object({ ...common, type: z.literal('task_blocked'), task_id: id, payload: looseObject({ reason: anyText }) }),
   z.object({
-    ...common, type: z.literal('task_completed'), task_id: text,
+    ...common, type: z.literal('task_completed'), task_id: id,
     payload: looseObject({ outcome: z.enum(['done', 'rejected']).optional(), human_minutes: minutes.optional() }).optional(),
   }),
   z.object({
-    ...common, type: z.literal('staff_status_changed'), task_id: text.nullable(),   // task_id가 null일 수 있는 유일한 종류
+    ...common, type: z.literal('staff_status_changed'), task_id: id.nullable(),   // task_id가 null일 수 있는 유일한 종류
     payload: looseObject({ status: staffStatus }),
   }),
 ]);
@@ -67,7 +73,7 @@ export function describeIssue(issue: z.core.$ZodIssue, rootLabel = '이벤트'):
     case 'too_small':
       return `${label}: 비어 있거나 너무 작습니다`;
     case 'too_big':
-      return `${label}: 너무 큽니다`;
+      return issue.origin === 'string' ? `${label}: 너무 깁니다(최대 ${String(issue.maximum)}자)` : `${label}: 너무 큽니다`;
     case 'unrecognized_keys':
       return `${label}: 모르는 칸 ${issue.keys.join(', ')}`;
     case 'invalid_union':

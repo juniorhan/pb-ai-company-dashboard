@@ -50,7 +50,12 @@ export interface Org {
 export const CEO_ID = 'ceo';
 export const UNASSIGNED_PREFIX = 'unassigned:';
 
-/** 본부 색 슬롯(1~8, docs/DESIGN.md §6 팔레트). 엔티티 고정 — 순서·필터로 다시 칠하지 않는다. 모르는 본부는 빈 슬롯 7·8 순. */
+// 상태 레코드(staff·tasks·approvals)의 키로 쓰지 않는 이름: Object.prototype의 속성 이름(__proto__·constructor 등).
+// 일반 객체에서 조회하면 상속 속성과 섞이므로 이벤트 검사가 거절하고 reducer도 건너뛴다.
+const RESERVED_IDS: ReadonlySet<string> = new Set(Object.getOwnPropertyNames(Object.prototype));
+export const isReservedId = (id: string): boolean => RESERVED_IDS.has(id);
+
+/** 본부 색 슬롯(1~8, docs/DESIGN.md §6 팔레트). 엔티티 고정 — 순서·필터로 다시 칠하지 않는다. 모르는 본부는 id 순으로 빈 슬롯 7·8부터. */
 export const DEPT_COLOR_SLOTS: Record<string, number> = { ops: 1, inv: 2, wms: 3, med: 4, rsk: 5, sys: 6 };
 
 /* ───────────── 이벤트(docs/EVENT_SPEC.md) ───────────── */

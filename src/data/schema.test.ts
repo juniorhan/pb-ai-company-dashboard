@@ -95,6 +95,36 @@ describe('parseEvent — 실패', () => {
     },
   );
 
+  it('예약된 이름(__proto__·constructor 등)은 상태의 키가 되는 어느 id 칸에도 쓸 수 없다', () => {
+    for (const bad of ['__proto__', 'constructor', 'toString', 'hasOwnProperty']) {
+      for (const input of [
+        make('task_started', { staff_id: bad }),
+        make('task_started', { task_id: bad }),
+        make('task_started', { event_id: bad }),
+        make('task_handoff', { payload: { to: bad } }),
+        make('task_review_requested', { payload: { reviewer: bad } }),
+        make('approval_requested', { payload: { approval_id: bad, summary: 's' } }),
+        make('task_created', { payload: { title: 't', parent_task_id: bad } }),
+      ]) {
+        const r = parseEvent(input);
+        expect(r.ok, `${bad} ${JSON.stringify(input)}`).toBe(false);
+        if (!r.ok) expect(r.error).toContain('예약된 이름');
+      }
+    }
+    expect(parseEvent(make('task_started', { task_id: 'proto-1' })).ok).toBe(true);     // 비슷한 이름은 괜찮다
+  });
+
+  it('길이 상한: id 200자, 글 2000자를 넘으면 실패', () => {
+    expect(parseEvent(make('task_started', { task_id: 'x'.repeat(200) })).ok).toBe(true);
+    const longId = parseEvent(make('task_started', { task_id: 'x'.repeat(201) }));
+    expect(longId.ok).toBe(false);
+    if (!longId.ok) expect(longId.error).toBe('task_id: 너무 깁니다(최대 200자)');
+    expect(parseEvent(make('task_started', { message: 'm'.repeat(2000) })).ok).toBe(true);
+    expect(parseEvent(make('task_started', { message: 'm'.repeat(2001) })).ok).toBe(false);
+    expect(parseEvent(make('task_created', { payload: { title: 't'.repeat(1024 * 1024) } })).ok).toBe(false);
+    expect(parseEvent(make('task_blocked', { payload: { reason: 'r'.repeat(2001) } })).ok).toBe(false);
+  });
+
   it('시간대가 없는 ts는 실패, Z와 오프셋은 통과', () => {
     expect(parseEvent(make('task_started', { ts: '2026-10-17T06:31:00' })).ok).toBe(false);
     expect(parseEvent(make('task_started', { ts: '2026-10-17' })).ok).toBe(false);

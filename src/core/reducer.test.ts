@@ -246,9 +246,36 @@ describe('종류별 상태 변화', () => {
 
 describe('경고', () => {
   it('승인 결정 행위자가 대표가 아니면 경고', () => {
-    const s = run([created(A, 't1'), askApproval(A, 't1', 't1:A1'), decide('t1', 't1:A1', 'approve', { staff: B, executor: 'claude' })]);
+    const s = run([created(A, 't1'), askApproval(A, 't1', 't1:A1'), decide('t1', 't1:A1', 'approve', { staff: B })]);
     expect(s.warnings).toEqual([`승인 결정 행위자가 대표가 아님: ${B}`]);
     expect(s.approvals['t1:A1']!.status).toBe('approved');           // 경고만 남기고 결정은 반영한다
+  });
+
+  it('승인 결정 실행 주체가 human이 아니면 대표 id여도 경고(EVENT_SPEC §3: ceo·human 조합만)', () => {
+    const s = run([created(A, 't1'), askApproval(A, 't1', 't1:A1'), decide('t1', 't1:A1', 'approve', { executor: 'claude' })]);
+    expect(s.warnings).toEqual(['승인 결정 실행 주체가 사람(human)이 아님: claude']);
+    expect(s.approvals['t1:A1']!.status).toBe('approved');
+    const both = run([created(A, 't1'), askApproval(A, 't1', 't1:A1'), decide('t1', 't1:A1', 'reject', { staff: B, executor: 'script' })]);
+    expect(both.warnings).toEqual([`승인 결정 행위자가 대표가 아님: ${B}`, '승인 결정 실행 주체가 사람(human)이 아님: script']);
+  });
+
+  it('예약된 이름(__proto__·constructor)을 id로 쓴 이벤트는 오류 없이 건너뛰고 경고만 남긴다(스키마를 거치지 않은 경우)', () => {
+    const base = run([created(A, 't1')]);
+    for (const bad of [
+      started('__proto__', 't1'),
+      started(A, 'constructor'),
+      handoff(A, 't1', '__proto__'),
+      review(A, 't1', 'toString'),
+      askApproval(A, 't1', '__proto__'),
+    ]) {
+      const s = reduce(base, bad, index);
+      expect(s.warnings).toEqual([`예약된 이름을 id로 쓴 이벤트를 건너뜀: ${bad.event_id}`]);
+      expect(s.seq).toBe(base.seq);
+      expect(Object.keys(s.staff)).toEqual(Object.keys(base.staff));
+      expect(Object.keys(s.tasks)).toEqual(Object.keys(base.tasks));
+      expect(Object.getPrototypeOf(s.staff)).toBe(Object.prototype);
+      expect(Object.getPrototypeOf(s.approvals)).toBe(Object.prototype);
+    }
   });
 
   it('모르는 승인 번호의 결정은 새로 만들고 경고', () => {

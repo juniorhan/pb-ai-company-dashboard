@@ -41,6 +41,13 @@ export function createDashboardStore(index: OrgIndex, source: EventSource, orgMe
     return state;
   }
 
+  /** 보관 구간보다 이른 이벤트를 건너뛰었으면 소스 상태 설명에 덧붙인다(조용히 버리지 않는다). */
+  function sourceStatus(): SourceStatus {
+    if (!log.stale) return status;
+    const note = `보관 구간보다 이른 이벤트 ${log.stale}건은 반영하지 않음`;
+    return { ...status, detail: status.detail ? `${status.detail} · ${note}` : note };
+  }
+
   function buildView(): DashboardView {
     return {
       state: buildState(),
@@ -48,7 +55,7 @@ export function createDashboardStore(index: OrgIndex, source: EventSource, orgMe
       range: log.range(),
       density: log.density(60),
       marks: log.marks(),
-      source: { kind: source.kind, label: source.label, live: source.live, status },
+      source: { kind: source.kind, label: source.label, live: source.live, status: sourceStatus() },
       org: orgMeta,
     };
   }
@@ -93,6 +100,8 @@ export function createDashboardStore(index: OrgIndex, source: EventSource, orgMe
       if (result.added > 0) {
         version += 1;
         changed();
+      } else if (result.stale > 0) {
+        changed();                          // 상태는 그대로, 소스 상태 설명(건너뛴 건수)만 바뀐다
       }
     }),
   );

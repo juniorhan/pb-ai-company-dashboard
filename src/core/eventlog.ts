@@ -4,6 +4,7 @@
 // - 마지막 ts보다 이르지 않으면 끝에 붙이고 최신 상태에 바로 적용한다. 과거 ts가 끼면 그 자리에 넣고 그 앞 스냅숏부터 다시 계산한다.
 // - snapshotEvery건마다 상태 스냅숏(그릇만 복사, 잎은 공유)을 둬서 stateAt은 가장 가까운 스냅숏부터 재생한다.
 // - maxEvents를 넘으면 오래된 이벤트부터 버리되, 버린 이벤트까지 반영한 상태를 기준 상태(base)로 남겨 latest·stateAt이 바뀌지 않게 한다.
+// - 버린 구간 안의 시각(버린 이벤트 중 가장 늦은 시각보다 이른)으로 늦게 온 이벤트는 기준 상태 뒤에 붙이면 시간순 재생이 깨지므로 받지 않고 센다(stale).
 import { applyInPlace, cloneShell, initialState } from './reducer';
 import type { DashboardState, OrgIndex, PbEvent } from '../types';
 
@@ -37,6 +38,8 @@ export class EventLog {
   private times: number[] = [];
   private seen = new Set<string>();
   private base: DashboardState;                 // evs[0] 앞까지(버린 이벤트 포함) 반영한 상태
+  private baseTime = Number.NEGATIVE_INFINITY;  // 버린 이벤트 중 가장 늦은 시각. 이보다 이른 이벤트는 받지 않는다
+  private staleCount = 0;
   private snaps: Snapshot[] = [];               // n 오름차순, n ≥ 1
   private working: DashboardState;              // 모든 이벤트를 반영한 작업용 상태(밖으로 내보내지 않는다)
   private latestCache: DashboardState | null = null;
@@ -54,8 +57,14 @@ export class EventLog {
     return this.evs.length;
   }
 
-  add(batch: PbEvent[]): { added: number; duplicates: number } {
+  /** 보관 구간보다 이른 시각이라 반영하지 않은 이벤트 수(누적, clear하면 0) */
+  get stale(): number {
+    return this.staleCount;
+  }
+
+  add(batch: PbEvent[]): { added: number; duplicates: number; stale: number } {
     let duplicates = 0;
+    let stale = 0;
     const fresh: Item[] = [];
     let latestTime = this.times.length ? this.times[this.times.length - 1]! : Number.NEGATIVE_INFINITY;
     for (const e of batch) {
@@ -66,10 +75,15 @@ export class EventLog {
       this.seen.add(e.event_id);
       let t = Date.parse(e.ts);
       if (Number.isNaN(t)) t = Number.isFinite(latestTime) ? latestTime : 0;   // 읽을 수 없는 시각은 끝에 붙인다
+      if (t < this.baseTime) {
+        stale += 1;
+        continue;
+      }
       if (t > latestTime) latestTime = t;
       fresh.push({ e, t });
     }
-    if (!fresh.length) return { added: 0, duplicates };
+    this.staleCount += stale;
+    if (!fresh.length) return { added: 0, duplicates, stale };
     fresh.sort((a, b) => a.t - b.t);        // 안정 정렬: 같은 시각은 받은 순서
 
     const lastTime = this.times.length ? this.times[this.times.length - 1]! : Number.NEGATIVE_INFINITY;
@@ -104,7 +118,7 @@ export class EventLog {
     this.trim();
     this.latestCache = null;
     this.eventsCache = null;
-    return { added: fresh.length, duplicates };
+    return { added: fresh.length, duplicates, stale };
   }
 
   /** 모든 이벤트를 반영한 최신 상태. 바뀌지 않았으면 같은 객체. */
@@ -163,6 +177,8 @@ export class EventLog {
     this.seen = new Set();
     this.snaps = [];
     this.base = initialState(this.index);
+    this.baseTime = Number.NEGATIVE_INFINITY;
+    this.staleCount = 0;
     this.working = cloneShell(this.base);
     this.latestCache = null;
     this.eventsCache = null;
@@ -211,6 +227,7 @@ export class EventLog {
     const excess = this.evs.length - this.maxEvents;
     if (excess <= 0) return;
     this.base = this.replayTo(excess);
+    this.baseTime = Math.max(this.baseTime, this.times[excess - 1]!);     // times는 오름차순: 버리는 것 중 마지막이 가장 늦다
     this.evs.splice(0, excess);
     this.times.splice(0, excess);
     this.snaps = this.snaps.filter((s) => s.n > excess).map((s) => ({ n: s.n - excess, state: s.state }));
