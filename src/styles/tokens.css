@@ -1,0 +1,167 @@
+/* 색·움직임 토큰. 값의 근거는 docs/DESIGN.md §6.
+   다크 모드는 두 범위를 모두 정의한다: ① 시스템 설정(prefers-color-scheme) — 수동으로 라이트를 고르지 않았을 때, ② :root[data-theme="dark"] — 수동 선택. */
+:root {
+  color-scheme: light;
+
+  /* 바탕·잉크 */
+  --page: #f6f6f3;
+  --surface-1: #fcfcfb;
+  --surface-2: #f1f0ec;
+  --surface-3: #e4e3dd;
+  --ink: #0b0b0b;
+  --ink-2: #52514e;
+  --muted: #898781;          /* 선·아이콘·장식용 */
+  --muted-text: #6b6a66;     /* 글자용 muted — 바탕 대비 4.5:1 이상을 지키려고 따로 둔다 */
+  --line: rgba(11, 11, 11, 0.1);
+  --line-strong: rgba(11, 11, 11, 0.24);
+  --focus: #1f66c2;
+  --glyph-edge: rgba(11, 11, 11, 0.62);
+  --shadow-card: 0 1px 2px rgba(11, 11, 11, 0.06);
+  --scrim: rgba(11, 11, 11, 0.32);
+
+  /* 본부 색(엔티티 고정 슬롯 1~8, 0은 슬롯이 다 찼을 때의 무채색) */
+  --dept-0: #8c8b86;
+  --dept-1: #2a78d6;
+  --dept-2: #eb6834;
+  --dept-3: #1baf7a;
+  --dept-4: #eda100;
+  --dept-5: #e87ba4;
+  --dept-6: #008300;
+  --dept-7: #6250d6;
+  --dept-8: #e34948;
+
+  /* 상태 색(예약 — 늘 아이콘·글자와 함께만 쓴다). -fg는 흰 바탕 위 아이콘·글자용으로 어둡게 한 값 */
+  --st-good: #0ca30c;
+  --st-warning: #fab219;
+  --st-serious: #ec835a;
+  --st-critical: #d03b3b;
+  --st-good-fg: #0a7a0a;
+  --st-warning-fg: #8a5a00;
+  --st-critical-fg: #b02a2a;
+  --on-good: #ffffff;
+  --on-warning: #1c1400;
+  --on-critical: #ffffff;
+  --st-review: #52514e;       /* 검토 중: 보조 잉크(점선) */
+  --on-review: #fcfcfb;
+  --st-idle-bar: #cfcec7;
+  --st-offline-bar: #e4e3dd;
+
+  /* 모드 배지 */
+  --mode-sim-bg: #fff3c4;
+  --mode-sim-fg: #5c4400;
+  --mode-sim-bd: #e6c24d;
+  --mode-live-bg: #dcf5dc;
+  --mode-live-fg: #0b4d0b;
+  --mode-live-bd: #7fcf7f;
+  --mode-live-dot: #0ca30c;
+  --mode-file-bg: #dfeafb;
+  --mode-file-fg: #123f7a;
+  --mode-file-bd: #8fb5ea;
+  --mode-err-bg: #fbe0e0;
+  --mode-err-fg: #7a1616;
+  --mode-err-bd: #e49a9a;
+
+  /* 움직임 */
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --t-ui: 160ms;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --page: #0d0d0d;
+    --surface-1: #1a1a19;
+    --surface-2: #232321;
+    --surface-3: #31312e;
+    --ink: #f0efec;
+    --ink-2: #c3c2b7;
+    --muted: #898781;
+    --muted-text: #a3a29b;
+    --line: rgba(255, 255, 255, 0.1);
+    --line-strong: rgba(255, 255, 255, 0.26);
+    --focus: #6aa8ff;
+    --glyph-edge: rgba(240, 239, 236, 0.7);
+    --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.5);
+    --scrim: rgba(0, 0, 0, 0.55);
+
+    --dept-0: #6f6e69;
+    --dept-1: #3987e5;
+    --dept-2: #d95926;
+    --dept-3: #199e70;
+    --dept-4: #c98500;
+    --dept-5: #d55181;
+    --dept-6: #008300;
+    --dept-7: #9085e9;
+    --dept-8: #e66767;
+
+    --st-good-fg: #4cc84c;
+    --st-warning-fg: #fab219;
+    --st-critical-fg: #f08080;
+    --st-review: #c3c2b7;
+    --on-review: #1a1a19;
+    --st-idle-bar: #4a4a46;
+    --st-offline-bar: #2e2e2b;
+
+    --mode-sim-bg: #3a2f08;
+    --mode-sim-fg: #ffe28a;
+    --mode-sim-bd: #7c6314;
+    --mode-live-bg: #11301a;
+    --mode-live-fg: #a8eaa8;
+    --mode-live-bd: #2f7a3f;
+    --mode-file-bg: #12294a;
+    --mode-file-fg: #b3d0fb;
+    --mode-file-bd: #2e5a99;
+    --mode-err-bg: #451616;
+    --mode-err-fg: #ffb4b4;
+    --mode-err-bd: #8a3535;
+  }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --page: #0d0d0d;
+  --surface-1: #1a1a19;
+  --surface-2: #232321;
+  --surface-3: #31312e;
+  --ink: #f0efec;
+  --ink-2: #c3c2b7;
+  --muted: #898781;
+  --muted-text: #a3a29b;
+  --line: rgba(255, 255, 255, 0.1);
+  --line-strong: rgba(255, 255, 255, 0.26);
+  --focus: #6aa8ff;
+  --glyph-edge: rgba(240, 239, 236, 0.7);
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.5);
+  --scrim: rgba(0, 0, 0, 0.55);
+
+  --dept-0: #6f6e69;
+  --dept-1: #3987e5;
+  --dept-2: #d95926;
+  --dept-3: #199e70;
+  --dept-4: #c98500;
+  --dept-5: #d55181;
+  --dept-6: #008300;
+  --dept-7: #9085e9;
+  --dept-8: #e66767;
+
+  --st-good-fg: #4cc84c;
+  --st-warning-fg: #fab219;
+  --st-critical-fg: #f08080;
+  --st-review: #c3c2b7;
+  --on-review: #1a1a19;
+  --st-idle-bar: #4a4a46;
+  --st-offline-bar: #2e2e2b;
+
+  --mode-sim-bg: #3a2f08;
+  --mode-sim-fg: #ffe28a;
+  --mode-sim-bd: #7c6314;
+  --mode-live-bg: #11301a;
+  --mode-live-fg: #a8eaa8;
+  --mode-live-bd: #2f7a3f;
+  --mode-file-bg: #12294a;
+  --mode-file-fg: #b3d0fb;
+  --mode-file-bd: #2e5a99;
+  --mode-err-bg: #451616;
+  --mode-err-fg: #ffb4b4;
+  --mode-err-bd: #8a3535;
+}

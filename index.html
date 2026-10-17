@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>PB AI 회사 관제실</title>
+    <meta name="description" content="PB AI 회사의 조직과 직원이 일하는 모습을 보는 관제 대시보드입니다. 공개 사이트는 가짜 데이터 시뮬레이션만 보여 줍니다." />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#f6f6f3" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0d0d0d" media="(prefers-color-scheme: dark)" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <script>
+      // 첫 그리기 전에 저장된 테마를 <html data-theme>에 달아 깜빡임을 막는다. 저장소를 못 읽으면 시스템 설정을 따른다.
+      (function () {
+        try {
+          var t = localStorage.getItem('pbai.theme');
+          if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
+        } catch (e) { /* 시스템 설정을 따른다 */ }
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <noscript>이 화면은 자바스크립트가 필요합니다. PB AI 회사 관제실 — 시뮬레이션은 가짜 데이터입니다.</noscript>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
