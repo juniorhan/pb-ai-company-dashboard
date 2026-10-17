@@ -1,0 +1,3124 @@
+{
+  "format": 1,
+  "meta": {
+    "generated_at": "2026-10-17T04:59:04.599Z",
+    "source": "wiki",
+    "source_hash": "1564cd66c8dac3994e95feb7a880fe0591fd9b39b2e106a135898a018eeaed06",
+    "counts": {
+      "depts": 6,
+      "teams": 26,
+      "staff": 68,
+      "expansion": 13
+    }
+  },
+  "ceo": {
+    "title": "대표이사",
+    "holds": [
+      "회사 목표·방향 설정",
+      "최종 투자 판단(종목·비중·매매)",
+      "고객 관계·영업의 최종 책임",
+      "대외 행동의 최종 책임"
+    ],
+    "owner_only": [
+      {
+        "task": "sol-01-T03",
+        "title": "MP 종목·비중·매매 입력"
+      },
+      {
+        "task": "rsc-04-T01",
+        "title": "콜 기록(방송·게시 전 반증 조건과 함께)"
+      },
+      {
+        "task": "rsc-04-T04",
+        "title": "분기·구조적 콜 수동 검토·판정불가 판단"
+      },
+      {
+        "task": "com-06-T06",
+        "title": "웨비나·라이브 진행 및 투자 판단 발언"
+      }
+    ]
+  },
+  "hq": [
+    {
+      "id": "hq.claude",
+      "name": "Claude",
+      "executor": "claude",
+      "role": "AI 총괄. 업무 기획·배정·조율·통합, AI 사이 의견 충돌의 최종 결정(필수 기계 검사·보안 차단·승인 게이트·정지 파일은 결정 대상 아님)"
+    },
+    {
+      "id": "hq.codex",
+      "name": "Codex",
+      "executor": "codex",
+      "role": "전문 분석·대량 코딩·독립 검토(다른 회사 모델 검사)"
+    },
+    {
+      "id": "hq.aside",
+      "name": "Aside",
+      "executor": "aside",
+      "role": "브라우저·PC 작업, 로그인 사이트 조작, 예약 루틴, 외부 게시·발송 실행(관문 경유)"
+    }
+  ],
+  "depts": [
+    {
+      "id": "ops",
+      "name": "경영·전략·운영실",
+      "head": "운영실장(AI COO)",
+      "role": "회사 경영기획·성과·업무 배차·조직·역량개발"
+    },
+    {
+      "id": "inv",
+      "name": "투자리서치·전략본부",
+      "head": "리서치본부장(AI CIO)",
+      "role": "시장·기업·데이터·전략·상품·연금 분석을 생산한다"
+    },
+    {
+      "id": "wms",
+      "name": "WM·영업본부",
+      "head": "WM본부장(AI WM Head)",
+      "role": "고객 발굴부터 상담·제안·관계 유지까지(실제 고객정보는 sw_client_data_ai 켠 뒤)"
+    },
+    {
+      "id": "med",
+      "name": "미디어·마케팅·브랜드본부",
+      "head": "편집국장(AI Editor in Chief)",
+      "role": "콘텐츠 기획·제작·채널 배포·성장 분석·브랜드"
+    },
+    {
+      "id": "rsk",
+      "name": "리스크·준법·감사실",
+      "head": "리스크실장(AI CRO)",
+      "role": "다른 본부와 독립적으로 산출물·시스템 위험을 검증한다(내부 검사이며 실제 준법 승인이 아님)"
+    },
+    {
+      "id": "sys",
+      "name": "AI플랫폼·자동화·데이터본부",
+      "head": "플랫폼본부장(AI CTO)",
+      "role": "AI 직원·자동화·지식·평가 인프라를 만들고 운영한다"
+    }
+  ],
+  "teams": [
+    {
+      "id": "ops-01",
+      "dept": "ops",
+      "name": "경영전략·성과관리",
+      "role": "KPI·월간 리뷰·AI 효과 측정·구독 한도 정책",
+      "status": "planned",
+      "phase": "P0"
+    },
+    {
+      "id": "ops-02",
+      "dept": "ops",
+      "name": "비서·업무관리",
+      "role": "업무 배차·진행 현황·결정 기록·대기·보류 목록, 본인 일정·연락 초안",
+      "status": "active",
+      "phase": "P0"
+    },
+    {
+      "id": "ops-03",
+      "dept": "ops",
+      "name": "조직·역량개발",
+      "role": "조직·직원 노트 관리, 승격·강등 대장, 자격 학습, PB 실무 훈련",
+      "status": "active",
+      "phase": "P0"
+    },
+    {
+      "id": "inv-01",
+      "dept": "inv",
+      "name": "거시경제·시장분석",
+      "role": "국내외 시황 재료·이벤트 캘린더·하우스뷰 비교",
+      "status": "active",
+      "phase": "P0"
+    },
+    {
+      "id": "inv-02",
+      "dept": "inv",
+      "name": "기업·산업분석",
+      "role": "증권사 리포트 리서치 원본·실적 후속·애널리스트 의견 추적",
+      "status": "active",
+      "phase": "P0"
+    },
+    {
+      "id": "inv-03",
+      "dept": "inv",
+      "name": "퀀트·시장데이터",
+      "role": "RS Tracker 운영·시장 캘린더·ETF 데이터·퀀트 연구",
+      "status": "active",
+      "phase": "P0"
+    },
+    {
+      "id": "inv-04",
+      "dept": "inv",
+      "name": "투자전략·자산배분",
+      "role": "MP 운영·시나리오·자산배분 근거·콜 원장(판단은 대표)",
+      "status": "active",
+      "phase": "P0"
+    },
+    {
+      "id": "inv-05",
+      "dept": "inv",
+      "name": "금융상품분석",
+      "role": "ETF·펀드 상품 비교·실사·위험 체크리스트",
+      "status": "planned",
+      "phase": "P0"
+    },
+    {
+      "id": "inv-06",
+      "dept": "inv",
+      "name": "연금·세제·은퇴설계",
+      "role": "연금·세제 공식 출처 확인·계산·해설",
+      "status": "planned",
+      "phase": "P0"
+    },
+    {
+      "id": "wms-01",
+      "dept": "wms",
+      "name": "영업전략·고객발굴",
+      "role": "퍼널 설계·소개 루틴·공개 공시 기반 발굴 신호",
+      "status": "planned",
+      "phase": "P0"
+    },
+    {
+      "id": "wms-02",
+      "dept": "wms",
+      "name": "고객관리·CRM",
+      "role": "고객 이력 구조·알림·문의 분류·고객 대상 글(레터·후속 연락)",
+      "status": "planned",
+      "phase": "P1"
+    },
+    {
+      "id": "wms-03",
+      "dept": "wms",
+      "name": "고객상담·제안·사후관리",
+      "role": "상담 준비·제안서·정기 리뷰(기본안의 포트폴리오 사후관리팀을 통합)",
+      "status": "planned",
+      "phase": "P1"
+    },
+    {
+      "id": "wms-04",
+      "dept": "wms",
+      "name": "고액자산가·법인솔루션",
+      "role": "자산가·법인 오너 진단·전문가 연결 브리프·법인 공시 분석",
+      "status": "planned",
+      "phase": "P0"
+    },
+    {
+      "id": "med-01",
+      "dept": "med",
+      "name": "콘텐츠 전략·편집",
+      "role": "주제 선정·편집 캘린더·마스터 원고·정기 브리핑 원고",
+      "status": "active",
+      "phase": "P0"
+    },
+    {
+      "id": "med-02",
+      "dept": "med",
+      "name": "콘텐츠 제작",
+      "role": "영상 대본·화면 자료·카드뉴스·시각 자료",
+      "status": "planned",
+      "phase": "P0"
+    },
+    {
+      "id": "med-03",
+      "dept": "med",
+      "name": "플랫폼별 운영·배포",
+      "role": "투자노트 사이트·유튜브·API 채널·수동 게시 채널 운영과 배포 조율",
+      "status": "active",
+      "phase": "P0"
+    },
+    {
+      "id": "med-04",
+      "dept": "med",
+      "name": "마케팅·성장분석",
+      "role": "채널 지표·월간 분석·성장 실험",
+      "status": "building",
+      "phase": "P0"
+    },
+    {
+      "id": "med-05",
+      "dept": "med",
+      "name": "브랜드·커뮤니티",
+      "role": "외부 공개 패키지·브랜드 맥락·커뮤니티·행사",
+      "status": "planned",
+      "phase": "P0"
+    },
+    {
+      "id": "rsk-01",
+      "dept": "rsk",
+      "name": "콘텐츠·대외발행 검증",
+      "role": "기계 검사·독립 검사·발행 승인 관문·약관 대장·R2 심의",
+      "status": "building",
+      "phase": "P0"
+    },
+    {
+      "id": "rsk-02",
+      "dept": "rsk",
+      "name": "투자·상품 리스크 검증",
+      "role": "투자 논리 반론·수치·모델 독립 검증",
+      "status": "planned",
+      "phase": "P0"
+    },
+    {
+      "id": "rsk-03",
+      "dept": "rsk",
+      "name": "정보보호·보안",
+      "role": "데이터 구역 경계·비밀값·개인정보 탐지",
+      "status": "active",
+      "phase": "P0"
+    },
+    {
+      "id": "rsk-04",
+      "dept": "rsk",
+      "name": "내부통제·고객보호",
+      "role": "민원·개인 준수·이해관계·통제 장치 점검·원장 감사",
+      "status": "building",
+      "phase": "P0"
+    },
+    {
+      "id": "sys-01",
+      "dept": "sys",
+      "name": "AI 아키텍처·에이전트관리",
+      "role": "직원 프로필·라우팅 설계·스킬·도구 연결",
+      "status": "active",
+      "phase": "P0"
+    },
+    {
+      "id": "sys-02",
+      "dept": "sys",
+      "name": "자동화·시스템운영",
+      "role": "예약·루틴·관제·텔레그램 중계·백업·이식",
+      "status": "active",
+      "phase": "P0"
+    },
+    {
+      "id": "sys-03",
+      "dept": "sys",
+      "name": "지식·데이터관리",
+      "role": "정본·생성본·노션 반영, 데이터 파이프라인(기본안의 지식관리·RAG팀과 데이터엔지니어링팀 통합)",
+      "status": "active",
+      "phase": "P0"
+    },
+    {
+      "id": "sys-04",
+      "dept": "sys",
+      "name": "AI 품질평가·기술연구",
+      "role": "평가셋·회귀·결함 주입·도구 탐색·도입 심사",
+      "status": "active",
+      "phase": "P0"
+    }
+  ],
+  "staff": [
+    {
+      "id": "inv-01-e01",
+      "team": "inv-01",
+      "dept": "inv",
+      "name": "시황 애널리스트(국내·해외)",
+      "role": "모닝·마감 시황 재료를 모으고 숫자를 확정해 편집국에 넘긴다(글 작성·게시는 med)",
+      "status": "active",
+      "phase": "P0",
+      "risk": "R1",
+      "executors": [
+        "claude",
+        "aside"
+      ],
+      "checkers": [
+        "codex",
+        "script"
+      ],
+      "checker_staff": [
+        "rsk-01-e02"
+      ],
+      "duties": [
+        {
+          "id": "rsc-03-T08",
+          "title": "국내 투자자별 수급 수집"
+        },
+        {
+          "id": "rsc-03-T09",
+          "title": "미국 마감 수집"
+        },
+        {
+          "id": "rsc-03-T10",
+          "title": "모닝·마감 시황 재료 수집과 숫자 확정"
+        },
+        {
+          "id": "rsc-03-T11",
+          "title": "네이버 브리핑 다이제스트"
+        },
+        {
+          "id": "com-04-T01",
+          "title": "텔레그램 브리핑 자료 수집(화이트리스트 공개 미리보기)"
+        },
+        {
+          "id": "com-03-T01",
+          "title": "촬영 준비 시장 데이터 수집(미국·한국 마감)"
+        }
+      ]
+    },
+    {
+      "id": "inv-01-e02",
+      "team": "inv-01",
+      "dept": "inv",
+      "name": "경제·이벤트 캘린더 담당",
+      "role": "금리 결정·경제지표·실적 발표 일정을 공식 출처로 만들고 사후 결과를 기입한다",
+      "status": "planned",
+      "phase": "P0",
+      "risk": "R1",
+      "executors": [
+        "claude",
+        "aside"
+      ],
+      "checkers": [
+        "codex",
+        "script"
+      ],
+      "checker_staff": [],
+      "duties": [
+        {
+          "id": "rsc-03-T06",
+          "title": "이벤트 캘린더 작성(금리 결정·경제지표·실적 발표)"
+        },
+        {
+          "id": "rsc-03-T07",
+          "title": "이벤트 일정 재확인·사후 결과 기입"
+        },
+        {
+          "id": "rsc-03-T15",
+          "title": "event-calendar SOP·평가셋·스킬 구축(M5)"
+        }
+      ]
+    },
+    {
+      "id": "inv-01-e03",
+      "team": "inv-01",
+      "dept": "inv",
+      "name": "거시 전략 애널리스트",
+      "role": "월간 하우스뷰 비교로 금리·환율·자산군 시각을 정리한다(판단은 대표)",
+      "status": "active",
+      "phase": "P0",
+      "risk": "R0",
+      "executors": [
+        "claude"
+      ],
+      "checkers": [
+        "codex"
+      ],
+      "checker_staff": [
+        "rsk-02-e01"
+      ],
+      "duties": [
+        {
+          "id": "sol-01-T04",
+          "title": "월간 하우스뷰 비교"
+        }
+      ]
+    },
+    {
+      "id": "inv-02-e01",
+      "team": "inv-02",
+      "dept": "inv",
+      "name": "증권사 리포트 리서치 애널리스트",
+      "role": "공개 증권사 리포트를 수집·검산·교차검증해 반론과 PB 설명 문안까지 붙인 리서치 원본을 만든다",
+      "status": "active",
+      "phase": "P0",
+      "risk": "R0",
+      "executors": [
+        "claude",
+        "aside"
+      ],
+      "checkers": [
+        "codex",
+        "script"
+      ],
+      "checker_staff": [
+        "rsk-02-e01"
+      ],
+      "duties": [
+        {
+          "id": "rsc-01-T01",
+          "title": "증권사 리포트 원문 수집"
+        },
+        {
+          "id": "rsc-01-T02",
+          "title": "리서치 원본 1장 작성"
+        },
+        {
+          "id": "rsc-01-T03",
+          "title": "리포트 숫자 검증(목표가 산식·표 정합성·공시 대조)"
+        },
+        {
+          "id": "rsc-01-T05",
+          "title": "타 증권사 교차검증(목표가=EPS×배수 비교)"
+        },
+        {
+          "id": "rsc-01-T06",
+          "title": "반론·반증 조건·하방 시나리오 작성"
+        },
+        {
+          "id": "rsc-01-T07",
+          "title": "PB 고객 설명 문안 작성(3~4문장)"
+        },
+        {
+          "id": "rsc-01-T09",
+          "title": "리서치 게이트·평가셋·스킬 구축(M5)"
+        }
+      ]
+    },
+    {
+      "id": "inv-02-e02",
+      "team": "inv-02",
+      "dept": "inv",
+      "name": "실적·산업 애널리스트",
+      "role": "실적 발표 후 후속 점검과 업종 조사를 맡는다. 산업별 전담이 필요하면 이 자리에서 나눈다",
+      "status": "building",
+      "phase": "P0",
+      "risk": "R0",
+      "executors": [
+        "claude",
+        "aside"
+      ],
+      "checkers": [
+        "codex"
+      ],
+      "checker_staff": [
+        "rsk-02-e01"
+      ],
+      "duties": [
+        {
+          "id": "rsc-01-T08",
+          "title": "실적 발표 후 후속 점검"
+        },
+        {
+          "id": "rsc-03-T13",
+          "title": "업종·실적 조사 노트"
+        }
+      ]
+    },
+    {
+      "id": "inv-02-e03",
+      "team": "inv-02",
+      "dept": "inv",
+      "name": "애널리스트 의견 추적·채점 담당",
+      "role": "애널리스트 의견을 기록하고 전망 대비 실제를 같은 잣대로 채점한다(rsc-01·rsc-04 중복 통합)",
+      "status": "active",
+      "phase": "P0",
+      "risk": "R0",
+      "executors": [
+        "claude",
+        "aside"
+      ],
+      "checkers": [
+        "script"
+      ],
+      "checker_staff": [],
+      "duties": [
+        {
+          "id": "rsc-01-T04",
+          "title": "애널리스트 과거 적중 이력 점검·평가셋 채점"
+        },
+        {
+          "id": "rsc-04-T06",
+          "title": "남의 의견 추적 기록"
+        },
+        {
+          "id": "rsc-04-T07",
+          "title": "남의 의견 채점(애널리스트 전망 vs 실제)"
+        }
+      ]
+    },
+    {
+      "id": "inv-03-e01",
+      "team": "inv-03",
+      "dept": "inv",
+      "name": "RS 데이터 운영 엔지니어",
+      "role": "RS Tracker 시장별 산출·기준일 검증·실패 복구·시장 캘린더·사이트 데이터 배포를 소유한다(위임 키 rsc-02 유지)",
+      "status": "active",
+      "phase": "P0",
+      "risk": "R1",
+      "executors": [
+        "claude",
+        "script"
+      ],
+      "checkers": [
+        "codex",
+        "script"
+      ],
+      "checker_staff": [],
+      "duties": [
+        {
+          "id": "rsc-02-T01",
+          "title": "한국 주식 RS 순위 산출"
+        },
+        {
+          "id": "rsc-02-T02",
+          "title": "한국 2차 업데이트(하루 전체 거래대금, 표시 전용)"
+        },
+        {
+          "id": "rsc-02-T03",
+          "title": "미국 주식 RS 순위 산출"
+        },
+        {
+          "id": "rsc-02-T04",
+          "title": "중국A 주식 RS 순위 산출"
+        },
+        {
+          "id": "rsc-02-T05",
+          "title": "홍콩·일본·유럽 주식 RS 순위 산출(참고 시장)"
+        },
+        {
+          "id": "rsc-02-T06",
+          "title": "한국 ETF RS 순위 산출"
+        },
+        {
+          "id": "rsc-02-T07",
+          "title": "미국 ETF RS 순위 산출"
+        },
+        {
+          "id": "rsc-02-T08",
+          "title": "RS 실행 상태·기준일 검증"
+        },
+        {
+          "id": "rsc-02-T09",
+          "title": "실패 시장 자동 복구"
+        },
+        {
+          "id": "rsc-02-T10",
+          "title": "투자노트 사이트 게시"
+        },
+        {
+          "id": "rsc-02-T13",
+          "title": "RS 산식·유니버스·표기 규칙 변경 관리"
+        },
+        {
+          "id": "rsc-02-T14",
+          "title": "예약 작업 등록·실행 환경 고정·백업"
+        },
+        {
+          "id": "rsc-02-T16",
+          "title": "rs-ops SOP·평가셋·스킬 구축(M5)"
+        },
+        {
+          "id": "rsc-03-T01",
+          "title": "한국 거래일·휴장 판정 유지"
+        },
+        {
+          "id": "rsc-03-T02",
+          "title": "미국 휴장일 표·서머타임 구간 관리"
+        },
+        {
+          "id": "rsc-03-T03",
+          "title": "중국A·홍콩 휴장 캘린더 정비"
+        },
+        {
+          "id": "rsc-03-T04",
+          "title": "브리핑용 수기 휴장표 갱신"
+        },
+        {
+          "id": "rsc-03-T05",
+          "title": "거래일 교차 대조·휴장표 만료 경보 구축(M5)"
+        },
+        {
+          "id": "com-02-T05",
+          "title": "RS 데이터·글 묶음 사이트 배포(gh-pages push)"
+        }
+      ]
+    },
+    {
+      "id": "inv-03-e02",
+      "team": "inv-03",
+      "dept": "inv",
+      "name": "ETF 데이터·분류 담당",
+      "role": "한국·미국 ETF 유니버스를 갱신하고 같은 노출 묶음·대표를 판정해 순위 표시값을 붙인다",
+      "status": "active",
+      "phase": "P0",
+      "risk": "R1",
+      "executors": [
+        "claude",
+        "script"
+      ],
+      "checkers": [
+        "codex",
+        "script"
+      ],
+      "checker_staff": [],
+      "duties": [
+        {
+          "id": "sol-02-T01",
+          "title": "한국 ETF 유니버스 구축·갱신"
+        },
+        {
+          "id": "sol-02-T02",
+          "title": "미국 ETF 유니버스 구축·갱신"
+        },
+        {
+          "id": "sol-02-T03",
+          "title": "ETF 분류·같은 노출 묶음·대표 선정"
+        },
+        {
+          "id": "sol-02-T04",
+          "title": "ETF 순위 표시값 부착"
+        }
+      ]
+    },
+    {
+      "id": "inv-03-e03",
+      "team": "inv-03",
+      "dept": "inv",
+      "name": "퀀트 리서처",
+      "role": "RS 결과를 해석해 조사 후보를 압축하고 팩터·백테스트·규칙 기반 포트폴리오를 연구한다",
+      "status": "active",
+      "phase": "P0",
+      "risk": "R1",
+      "executors": [
+        "claude"
+      ],
+      "checkers": [
+        "codex"
+      ],
+      "checker_staff": [
+        "rsk-02-e02"
+      ],
+      "duties": [
+        {
+          "id": "rsc-02-T12",
+          "title": "RS 결과 해석·조사 후보 압축"
+        },
+        {
+          "id": "sol-01-T09",
+          "title": "규칙 기반 모델 포트폴리오 산출(RS Momentum v1)"
+        },
+        {
+          "id": "sol-01-T10",
+          "title": "연구용 비중 최적화 실험"
+        }
+      ]
+    },
+    {
+      "id": "inv-04-e01",
+      "team": "inv-04",
+      "dept": "inv",
+      "name": "MP 운영 담당",
+      "role": "대표가 정한 MP 입력을 검사하고 가격·성과·기여도를 계산하며 MP 저장소·관리자 화면을 유지한다",
+      "status": "active",
+      "phase": "P0",
+      "risk": "R1",
+      "executors": [
+        "claude",
+        "script"
+      ],
+      "checkers": [
+        "codex",
+        "script"
+      ],
+      "checker_staff": [],
+      "duties": [
+        {
+          "id": "sol-01-T01",
+          "title": "MP 입력 검사"
+        },
+        {
+          "id": "sol-01-T02",
+          "title": "MP 가격·성과·기여도 계산"
+        },
+        {
+          "id": "sol-01-T08",
+          "title": "MP 입력 저장소·관리자 화면 유지"
+        },
+        {
+          "id": "sol-01-T11",
+          "title": "sol-01 평가셋·SOP 구축(M5)"
+        }
+      ]
+    },
+    {
+      "id": "inv-04-e02",
+      "team": "inv-04",
+      "dept": "inv",
+      "name": "포트폴리오 전략가",
+      "role": "시나리오·스트레스 분석과 자산배분 근거 문서를 만든다(결정은 대표)",
+      "status": "planned",
+      "phase": "P0",
+      "risk": "R1",
+      "executors": [
+        "claude"
+      ],
+      "checkers": [
+        "codex",
+        "script"
+      ],
+      "checker_staff": [
+        "rsk-02-e01",
+        "rsk-02-e02"
+      ],
+      "duties": [
+        {
+          "id": "sol-01-T05",
+          "title": "시나리오·스트레스 분석"
+        },
+        {
+          "id": "sol-01-T06",
+          "title": "자산배분 제안 근거 문서 작성"
+        }
+      ]
+    },
+    {
+      "id": "inv-04-e03",
+      "team": "inv-04",
+      "dept": "inv",
+      "name": "콜 원장 관리자",
+      "role": "대표의 콜을 받는 형식을 지키고 검증일 채점·성적표·반복 오류 패턴·공개 트랙레코드 초안을 만든다",
+      "status": "planned",
+      "phase": "P0",
+      "risk": "R1",
+      "executors": [
+        "claude",
+        "script"
+      ],
+      "checkers": [
+        "codex"
+      ],
+      "checker_staff": [
+        "rsk-04-e03",
+        "rsk-02-e01"
+      ],
+      "duties": [
+        {
+          "id": "rsc-04-T03",
+          "title": "검증일 도래 콜 자동 채점"
+        },
+        {
+          "id": "rsc-04-T05",
+          "title": "성적표·반복 오류 패턴 갱신"
+        },
+        {
+          "id": "rsc-04-T08",
+          "title": "분기별 공개 트랙레코드 정리"
+        },
+        {
+          "id": "rsc-04-T09",
+          "title": "콜 원장 형식·채점기·무결성 검사 구축(M5)"
+        },
+        {
+          "id": "com-03-T02",
+          "title": "콜 원장 검증(촬영 준비 단계)"
+        }
+      ]
+    },
+    {
+      "id": "inv-05-e01",
+      "team": "inv-05",
+      "dept": "inv",
+      "name": "ETF·펀드 상품 분석가",
+      "role": "공식 자료로 ETF 상품 비교표와 지식 카드를 만든다",
+      "status": "planned",
+      "phase": "P0",
+      "risk": "R2",
+      "executors": [
+        "claude"
+      ],
+      "checkers": [
+        "codex",
+        "script"
+      ],
+      "checker_staff": [
+        "rsk-01-e02"
+      ],
+      "duties": [
+        {
+          "id": "sol-02-T05",
+          "title": "ETF 상품 비교표 작성(P0 지식)"
+        },
+        {
+          "id": "sol-02-T06",
+          "title": "ETF 상품 지식 카드 작성"
+        },
+        {
+          "id": "sol-02-T11",
+          "title": "etf-product-card 스킬·평가셋 구축(M5)"
+        }
+      ]
+    },
+    {
+      "id": "inv-05-e02",
+      "team": "inv-05",
+      "dept": "inv",
+      "name": "상품 실사·위험 분석가",
+      "role": "상품 실사·환 리스크·과세 체크리스트를 만들고 입사 후 회사 취급 상품을 실사한다",
+      "status": "planned",
+      "phase": "P0",
+      "risk": "R2",
+      "executors": [
+        "claude"
+      ],
+      "checkers": [
+        "codex"
+      ],
+      "checker_staff": [
+        "rsk-02-e01"
+      ],
+      "duties": [
+        {
+          "id": "sol-02-T07",
+          "title": "상품 실사 체크리스트 작성"
+        },
+        {
+          "id": "sol-02-T08",
+          "title": "해외 상품 환 리스크·과세 체크리스트 작성"
+        },
+        {
+          "id": "sol-02-T09",
+          "title": "회사 취급 상품 실사(P1)"
+        }
+      ]
+    },
+    {
+      "id": "inv-06-e01",
+      "team": "inv-06",
+      "dept": "inv",
+      "name": "연금·세제 계산 담당",
+      "role": "연금·세제 한도·세율을 공식 출처로 확인해 저장하고 세액공제·현금흐름을 코드로 계산한다",
+      "status": "planned",
+      "phase": "P0",
+      "risk": "R2",
+      "executors": [
+        "claude",
+        "script"
+      ],
+      "checkers": [
+        "codex"
+      ],
+      "checker_staff": [
+        "rsk-02-e02"
+      ],
+      "duties": [
+        {
+          "id": "sol-03-T01",
+          "title": "연금·세제 한도·세율 공식 출처 확인·저장"
+        },
+        {
+          "id": "sol-03-T02",
+          "title": "세액공제 한도 계산"
+        },
+        {
+          "id": "sol-03-T03",
+          "title": "연금저축·IRP·DC 점검표 작성"
+        },
+        {
+          "id": "sol-03-T04",
+          "title": "은퇴 현금흐름 시뮬레이션"
+        },
+        {
+          "id": "sol-03-T05",
+          "title": "한도·세율 개정 월간 점검"
+        },
+        {
+          "id": "sol-03-T08",
+          "title": "pension-calc 스킬·SOP·평가셋 구축(M5)"
+        }
+      ]
+    },
+    {
+      "id": "inv-06-e02",
+      "team": "inv-06",
+      "dept": "inv",
+      "name": "은퇴설계 해설가",
+      "role": "계산 결과를 바탕으로 세무·법률 결론이 든 해설을 쓴다(규칙 1: 검증 루프 + 사람 확인)",
+      "status": "planned",
+      "phase": "P0",
+      "risk": "R2",
+      "executors": [
+        "claude"
+      ],
+      "checkers": [
+        "codex",
+        "human"
+      ],
+      "checker_staff": [
+        "rsk-01-e02"
+      ],
+      "duties": [
+        {
+          "id": "sol-03-T07",
+          "title": "연금·세제 결과 해설(세무·법률 결론 포함) 작성"
+        }
+      ]
+    },
+    {
+      "id": "med-01-e01",
+      "team": "med-01",
+      "dept": "med",
+      "name": "편집장",
+      "role": "마스터 원고 주제를 고르고 편집 캘린더와 시황 콘텐츠 전략을 관리한다",
+      "status": "building",
+      "phase": "P0",
+      "risk": "R0",
+      "executors": [
+        "claude"
+      ],
+      "checkers": [
+        "codex",
+        "human"
+      ],
+      "checker_staff": [],
+      "duties": [
+        {
+          "id": "com-01-T01",
+          "title": "마스터 원고 주제 선정"
+        },
+        {
+          "id": "com-01-T02",
+          "title": "편집 캘린더 작성·관리"
+        },
+        {
+          "id": "com-01-T09",
+          "title": "시황 콘텐츠 전략 수립(통합·채널별)"
+        },
+        {
+          "id": "com-01-T10",
+          "title": "편집 SOP·평가셋 구축"
+        }
+      ]
+    },
+    {
+      "id": "med-01-e02",
+      "team": "med-01",
+      "dept": "med",
+      "name": "마스터 원고 에디터",
+      "role": "근거 데이터와 함께 마스터 원고·심층 글을 쓰고 AI 티를 점검한다",
+      "status": "active",
+      "phase": "P0",
+      "risk": "R1",
+      "executors": [
+        "claude"
+      ],
+      "checkers": [
+        "codex",
+        "script"
+      ],
+      "checker_staff": [
+        "rsk-01-e01",
+        "rsk-01-e02"
+      ],
+      "duties": [
+        {
+          "id": "com-01-T03",
+          "title": "마스터 원고 작성"
+        },
+        {
+          "id": "com-01-T04",
+          "title": "마스터 원고 근거 데이터(evidence.json) 생성"
+        },
+        {
+          "id": "com-01-T06",
+          "title": "투자전략·리서치 심층 글 작성(요청 시)"
+        },
+        {
+          "id": "com-01-T08",
+          "title": "원고 AI 티 점검·윤문"
+        }
+      ]
+    },
+    {
+      "id": "med-01-e03",
+      "team": "med-01",
+      "dept": "med",
+      "name": "정기 브리핑 작가",
+      "role": "모닝·마감 정기 브리핑 원고를 쓴다(Aside 루틴, 시황 숫자는 inv-01-e01에서 받음)",
+      "status": "active",
+      "phase": "P0",
+      "risk": "R1",
+      "executors": [
+        "aside"
+      ],
+      "checkers": [
+        "script",
+        "human"
+      ],
+      "checker_staff": [
+        "rsk-01-e01"
+      ],
+      "duties": [
+        {
+          "id": "com-01-T05",
+          "title": "투자노트 정기 브리핑 원고 작성(모닝·마감)"
+        }
+      ]
+    },
+    {
+      "id": "med-02-e01",
+      "team": "med-02",
+      "dept": "med",
+      "name": "영상 프로듀서",
+      "role": "마스터 원고로 유튜브 롱폼·쇼츠 대본과 화면 자료를 만들고 영상으로 렌더한다",
+      "status": "planned",
+      "phase": "P0",
+      "risk": "R1",
+      "executors": [
+        "claude"
+      ],
+      "checkers": [
+        "codex"
+      ],
+      "checker_staff": [
+        "rsk-01-e01"
+      ],
+      "duties": [
+        {
+          "id": "com-03-T03",
+          "title": "촬영용 board.html·script.md 일일 생성(기존 경로)"
+        },
+        {
+          "id": "com-03-T04",
+          "title": "유튜브 롱폼·쇼츠 대본 작성(마스터 원고 기반)"
+        },
+        {
+          "id": "com-03-T05",
+          "title": "화면 자료(board.html) 제작(마스터 원고 기반)"
+        },
+        {
+          "id": "com-03-T12",
+          "title": "HTML 정본 영상 렌더(스냅샷 확인 후)"
+        },
+        {
+          "id": "rsc-03-T12",
+          "title": "촬영 준비용 시황 보드·스크립트 작성"
+        }
+      ]
+    },
+    {
+      "id": "med-02-e02",
+      "team": "med-02",
+      "dept": "med",
+      "name": "카드뉴스·시각 디자이너",
+      "role": "카드뉴스 HTML 정본과 장표 텍스트·캡션, 행사 자료를 만든다",
+      "status": "planned",
+      "phase": "P0",
+      "risk": "R1",
+      "executors": [
+        "claude"
+      ],
+      "checkers": [
+        "codex",
+        "script"
+      ],
+      "checker_staff": [
+        "rsk-01-e01"
+      ],
+      "duties": [
+        {
+          "id": "com-03-T06",
+          "title": "카드뉴스 정본(HTML) 제작"
+        },
+        {
+          "id": "com-04-T05",
+          "title": "인스타그램 카드뉴스 장표 텍스트·캡션 변환"
+        },
+        {
+          "id": "com-06-T02",
+          "title": "행사 자료 작성"
+        }
+      ]
+    },
+    {
+      "id": "med-03-e01",
+      "team": "med-03",
+      "dept": "med",
+      "name": "투자노트 웹사이트 담당",
+      "role": "투자노트 사이트의 글 게시·수정·기능 개선·관리자 중계를 맡는다(약관 위험 없는 자체 채널)",
+      "status": "active",
+      "phase": "P0",
+      "risk": "R1",
+      "executors": [
+        "claude",
+        "aside"
+      ],
+      "checkers": [
+        "codex"
+      ],
+      "checker_staff": [
+        "rsk-01-e01",
+        "rsk-01-e02",
+        "rsk-01-e03"
+      ],
+      "duties": [
+        {
+          "id": "com-02-T01",
+          "title": "투자노트 정기 브리핑 게시(모닝·마감)"
+        },
+        {
+          "id": "com-02-T02",
+          "title": "투자노트 요청 글 게시(투자전략·리서치)"
+        },
+        {
+          "id": "com-02-T03",
+          "title": "투자노트 기존 글 수정·삭제"
+        },
+        {
+          "id": "com-02-T06",
+          "title": "투자노트 사이트 기능 개선·결함 관리"
+        },
+        {
+          "id": "com-02-T08",
+          "title": "관리자 자연어 명령 중계(RS_Tracker_nl_bridge)"
+        },
+        {
+          "id": "rsc-02-T15",
+          "title": "투자노트 사이트 기능 개발·개선"
+        }
+      ]
+    },
+    {
+      "id": "med-03-e02",
+      "team": "med-03",
+      "dept": "med",
+      "name": "유튜브 퍼블리셔",
+      "role": "업로드 패키지(제목·설명·태그)를 만들고 Studio 예약까지 준비한다(마지막 클릭은 사람)",
+      "status": "planned",
+      "phase": "P0",
+      "risk": "R1",
+      "executors": [
+        "claude"
+      ],
+      "checkers": [
+        "codex",
+        "script"
+      ],
+      "checker_staff": [
+        "rsk-01-e01",
+        "rsk-01-e02"
+      ],
+      "duties": [
+        {
+          "id": "com-03-T07",
+          "title": "유튜브 업로드 패키지 작성"
+        },
+        {
+          "id": "com-03-T09",
+          "title": "유튜브 업로드·게시(Studio 예약+사람 마지막 클릭)"
+        }
+      ]
+    },
+    {
+      "id": "med-03-e03",
+      "team": "med-03",
+      "dept": "med",
+      "name": "공식 API 채널 퍼블리셔(텔레그램·인스타그램·스레드·링크드인)",
+      "role": "공식 API 채널 변환본을 만들고 관문을 거쳐 API로 발행한다. 플랫폼 차이는 채널별 어댑터·형식표(스킬)로 처리한다",
+      "status": "planned",
+      "phase": "P0",
+      "risk": "R1",
+      "executors": [
+        "claude",
+        "aside"
+      ],
+      "checkers": [
+        "codex",
+        "script"
+      ],
+      "checker_staff": [
+        "rsk-01-e01",
+        "rsk-01-e02",
+        "rsk-01-e03"
+      ],
+      "duties": [
+        {
+          "id": "com-04-T02",
+          "title": "텔레그램 브리핑 작성·발송(기존 예약 5개)"
+        },
+        {
+          "id": "com-04-T03",
+          "title": "텔레그램 공개 채널 발행 패키지 작성(마스터 원고 기반)"
+        },
+        {
+          "id": "com-04-T04",
+          "title": "텔레그램 공개 채널 API 발송(관문 경유)"
+        },
+        {
+          "id": "com-04-T06",
+          "title": "인스타그램 공식 API 발행 경로 구축·발행"
+        },
+        {
+          "id": "com-04-T07",
+          "title": "스레드 짧은 글 변환"
+        },
+        {
+          "id": "com-04-T08",
+          "title": "스레드 공식 API 발행 경로 구축·발행"
+        },
+        {
+          "id": "com-04-T10",
+          "title": "링크드인 게시글 변환"
+        },
+        {
+          "id": "com-04-T11",
+          "title": "링크드인 개인 게시 API 발행 경로 구축·발행"
+        }
+      ]
+    },
+    {
+      "id": "med-03-e04",
+      "team": "med-03",
+      "dept": "med",
+      "name": "수동 게시 채널 패키저(네이버 블로그·카페·브런치·뉴스레터·X·카카오)",
+      "role": "사람 마지막 클릭 채널용 발행 패키지와 체크리스트를 만든다",
+      "status": "planned",
+      "phase": "P0",
+      "risk": "R1",
+      "executors": [
+        "claude"
+      ],
+      "checkers": [
+        "codex",
+        "script"
+      ],
+      "checker_staff": [
+        "rsk-01-e01",
+        "rsk-01-e02"
+      ],
+      "duties": [
+        {
+          "id": "com-02-T09",
+          "title": "네이버 블로그 발행 패키지 작성"
+        },
+        {
+          "id": "com-02-T10",
+          "title": "네이버 카페 발행 패키지 작성"
+        },
+        {
+          "id": "com-02-T11",
+          "title": "브런치 발행 패키지 작성"
+        },
+        {
+          "id": "com-02-T12",
+          "title": "뉴스레터(스티비) 발행 패키지 작성"
+        },
+        {
+          "id": "com-04-T09",
+          "title": "X 게시글 변환"
+        },
+        {
+          "id": "com-04-T12",
+          "title": "오픈채팅 공지 글 변환"
+        },
+        {
+          "id": "com-04-T13",
+          "title": "카카오 채널 소식 글 변환"
+        }
+      ]
+    },
+    {
+      "id": "med-03-e05",
+      "team": "med-03",
+      "dept": "med",
+      "name": "배포 조율 관리자",
+      "role": "채널 노트·발행 일정·중복 방지를 맡고 변환 스킬·패키지 검사기·관문 연결을 유지한다(공통 배포 시스템)",
+      "status": "building",
+      "phase": "P0",
+      "risk": "R1",
+      "executors": [
+        "claude"
+      ],
+      "checkers": [
+        "codex",
+        "script"
+      ],
+      "checker_staff": [],
+      "duties": [
+        {
+          "id": "com-02-T14",
+          "title": "변환 스킬·패키지 검사기·평가셋 구축"
+        },
+        {
+          "id": "com-02-T15",
+          "title": "채널 노트 작성·갱신(운영 채널 전체)"
+        },
+        {
+          "id": "com-02-T16",
+          "title": "채널 사실 재확인(공식 API·한도·비용·계정 보유)"
+        },
+        {
+          "id": "com-02-T17",
+          "title": "투자노트 모닝·마감 루틴 게시 관문 연결"
+        },
+        {
+          "id": "com-08-T04",
+          "title": "포트폴리오 페이지 공개 설정·게시"
+        }
+      ]
+    },
+    {
+      "id": "med-04-e01",
+      "team": "med-04",
+      "dept": "med",
+      "name": "채널 지표 분석가",
+      "role": "채널 지표 스냅샷을 모으고 재계산·증감과 월간 분석, 공개용 성과 수치를 만든다",
+      "status": "building",
+      "phase": "P0",
+      "risk": "R1",
+      "executors": [
+        "claude",
+        "script"
+      ],
+      "checkers": [
+        "codex",
+        "script"
+      ],
+      "checker_staff": [],
+      "duties": [
+        {
+          "id": "com-05-T01",
+          "title": "투자노트 지표 수집·스냅샷 생성"
+        },
+        {
+          "id": "com-05-T02",
+          "title": "텔레그램 공개 채널 구독자 수 수집"
+        },
+        {
+          "id": "com-05-T03",
+          "title": "API·사람 입력 채널 지표 수집(월 1회)"
+        },
+        {
+          "id": "com-05-T04",
+          "title": "지표 재계산 대조·증감 계산"
+        },
+        {
+          "id": "com-05-T05",
+          "title": "월간 채널 분석 작성"
+        },
+        {
+          "id": "com-05-T09",
+          "title": "채널 노트 지표·UTM 기준 정의"
+        },
+        {
+          "id": "com-05-T10",
+          "title": "공개용 성과 수치 정리·전달(com-08 원자료)"
+        },
+        {
+          "id": "com-05-T11",
+          "title": "지표·성장 실험 SOP·평가셋 구축"
+        }
+      ]
+    },
+    {
+      "id": "med-04-e02",
+      "team": "med-04",
+      "dept": "med",
+      "name": "성장 실험 설계자",
+      "role": "채널별 성장 실험을 설계·진행하고 결과를 기록한다(결과를 본 뒤 기준 변경 금지)",
+      "status": "building",
+      "phase": "P0",
+      "risk": "R0",
+      "executors": [
+        "claude"
+      ],
+      "checkers": [
+        "codex",
+        "script"
+      ],
+      "checker_staff": [],
+      "duties": [
+        {
+          "id": "com-05-T06",
+          "title": "성장 실험 설계(채널별 1건)"
+        },
+        {
+          "id": "com-05-T07",
+          "title": "성장 실험 설계 검사"
+        },
+        {
+          "id": "com-05-T08",
+          "title": "성장 실험 진행·결과 기록"
+        }
+      ]
+    },
+    {
+      "id": "med-05-e01",
+      "team": "med-05",
+      "dept": "med",
+      "name": "브랜드·대외 포트폴리오 담당",
+      "role": "시스템 소개 PDF·공개 포트폴리오 페이지·기능 표시 판정·가상 시연 시나리오·지점 공유 키트와 브랜드 맥락 파일을 만든다",
+      "status": "planned",
+      "phase": "P0",
+      "risk": "R1",
+      "executors": [
+        "claude"
+      ],
+      "checkers": [
+        "codex",
+        "script"
+      ],
+      "checker_staff": [
+        "rsk-01-e01",
+        "rsk-01-e02"
+      ],
+      "duties": [
+        {
+          "id": "com-08-T01",
+          "title": "시스템 소개 PDF 제작(1~2쪽)"
+        },
+        {
+          "id": "com-08-T03",
+          "title": "공개 포트폴리오 페이지 초안 작성"
+        },
+        {
+          "id": "com-08-T05",
+          "title": "기능 표시 판정('실제 운영 / 가상 시연 / 미검증')"
+        },
+        {
+          "id": "com-08-T07",
+          "title": "가상 고객 시연 시나리오 작성"
+        },
+        {
+          "id": "com-08-T08",
+          "title": "지점 공유 키트 작성(템플릿·체크리스트·프롬프트 묶음)"
+        },
+        {
+          "id": "com-02-T18",
+          "title": "PRODUCT·DESIGN 맥락 파일 분리 작성"
+        },
+        {
+          "id": "wm-03-T08",
+          "title": "가상 고객 시연 소재 제공(외부 공개 패키지 2부 연결)"
+        }
+      ]
+    },
+    {
+      "id": "med-05-e02",
+      "team": "med-05",
+      "dept": "med",
+      "name": "커뮤니티·행사 매니저",
+      "role": "웨비나·라이브 주제·진행안·공지·사후 정리를 만든다(진행과 투자 판단 발언은 대표)",
+      "status": "planned",
+      "phase": "P1",
+      "risk": "R1",
+      "executors": [
+        "claude"
+      ],
+      "checkers": [
+        "codex"
+      ],
+      "checker_staff": [
+        "rsk-01-e02"
+      ],
+      "duties": [
+        {
+          "id": "com-06-T01",
+          "title": "웨비나·라이브 주제·진행안 작성"
+        },
+        {
+          "id": "com-06-T03",
+          "title": "행사 공지 문구 작성"
+        },
+        {
+          "id": "com-06-T04",
+          "title": "행사 사후 정리 작성"
+        },
+        {
+          "id": "com-06-T07",
+          "title": "행사 가상 시나리오·평가 구축"
+        }
+      ]
+    },
+    {
+      "id": "ops-01-e01",
+      "team": "ops-01",
+      "dept": "ops",
+      "name": "경영기획·성과 분석가",
+      "role": "KPI 집계 스크립트를 소유하고 월간 리뷰·AI 도입 효과·공개용 성과 수치를 원장 근거로 만든다",
+      "status": "planned",
+      "phase": "P0",
+      "risk": "R0",
+      "executors": [
+        "claude"
+      ],
+      "checkers": [
+        "codex",
+        "script"
+      ],
+      "checker_staff": [],
+      "duties": [
+        {
+          "id": "cos-02-T01",
+          "title": "KPI 집계"
+        },
+        {
+          "id": "cos-02-T02",
+          "title": "월간 리뷰 작성"
+        },
+        {
+          "id": "cos-02-T05",
+          "title": "AI 도입 전후 효과 측정"
+        },
+        {
+          "id": "com-08-T02",
+          "title": "ledger 기반 성과 수치 계산"
+        }
+      ]
+    },
+    {
+      "id": "ops-01-e02",
+      "team": "ops-01",
+      "dept": "ops",
+      "name": "구독 한도·자원 관리자",
+      "role": "구독 한도 임계치·팀 상한을 정하고 한도·인증 오류를 보고한다(추가 비용 0 원칙의 예산 관리)",
+      "status": "planned",
+      "phase": "P0",
+      "risk": "R0",
+      "executors": [
+        "claude"
+      ],
+      "checkers": [
+        "script",
+        "human"
+      ],
+      "checker_staff": [],
+      "duties": [
+        {
+          "id": "cos-02-T03",
+          "title": "구독 한도 임계치·팀 상한 정하기"
+        },
+        {
+          "id": "cos-02-T04",
+          "title": "한도·인증 오류 보고"
+        }
+      ]
+    },
+    {
+      "id": "ops-02-e01",
+      "team": "ops-02",
+      "dept": "ops",
+      "name": "업무 배차·진행 관리관(PMO)",
+      "role": "요청을 작업 카드로 만들어 직원·실행 AI에 배정하고 결정 기록·진행·대기·보류 목록과 현황 기준을 관리한다",
+      "status": "active",
+      "phase": "P0",
+      "risk": "R0",
+      "executors": [
+        "claude"
+      ],
+      "checkers": [
+        "script"
+      ],
+      "checker_staff": [],
+      "duties": [
+        {
+          "id": "cos-01-T01",
+          "title": "결정 기록 유지"
+        },
+        {
+          "id": "cos-01-T02",
+          "title": "작업공간 상태 문서(STATE.md) 갱신"
+        },
+        {
+          "id": "cos-01-T03",
+          "title": "프로젝트 진행·할 일 문서 갱신"
+        },
+        {
+          "id": "cos-01-T04",
+          "title": "사용자 결정 대기 목록 모으기"
+        },
+        {
+          "id": "cos-01-T05",
+          "title": "현황 항목 기준·마일스톤 진도 정의"
+        },
+        {
+          "id": "cos-01-T06",
+          "title": "현황 수치 대조"
+        },
+        {
+          "id": "NEW-01",
+          "title": "작업 카드 작성·배정"
+        }
+      ]
+    },
+    {
+      "id": "ops-02-e02",
+      "team": "ops-02",
+      "dept": "ops",
+      "name": "일정·연락 비서",
+      "role": "본인 일정 정리와 메일·메시지·초대 초안을 만들고, 발송·초대는 관문을 거쳐 Aside가 실행한다",
+      "status": "planned",
+      "phase": "P0",
+      "risk": "R1",
+      "executors": [
+        "claude",
+        "aside"
+      ],
+      "checkers": [
+        "codex",
+        "script"
+      ],
+      "checker_staff": [
+        "rsk-01-e01"
+      ],
+      "duties": [
+        {
+          "id": "cos-04-T01",
+          "title": "본인 일정 조회·정리"
+        },
+        {
+          "id": "cos-04-T02",
+          "title": "연락(메일·메시지) 초안 작성"
+        },
+        {
+          "id": "cos-04-T04",
+          "title": "메일·메시지 발송"
+        },
+        {
+          "id": "cos-04-T05",
+          "title": "초대자 있는 일정 생성·수정"
+        }
+      ]
+    },
+    {
+      "id": "ops-03-e01",
+      "team": "ops-03",
+      "dept": "ops",
+      "name": "조직 설계·인사 관리자",
+      "role": "실·팀·직원·채널 노트를 pb-org로 추가·변경·동결하고 조직 검사와 승격·강등 대장, 직원 명부를 관리한다",
+      "status": "active",
+      "phase": "P0",
+      "risk": "R0",
+      "executors": [
+        "claude"
+      ],
+      "checkers": [
+        "codex",
+        "script"
+      ],
+      "checker_staff": [],
+      "duties": [
+        {
+          "id": "cos-03-T01",
+          "title": "팀·채널·실 노트 추가·변경·동결"
+        },
+        {
+          "id": "cos-03-T02",
+          "title": "조직 검사(check_org) 실행"
+        },
+        {
+          "id": "cos-03-T03",
+          "title": "칸 규칙·노트 양식 3종 관리"
+        },
+        {
+          "id": "cos-03-T05",
+          "title": "독립 사업 경로 팀 추가"
+        },
+        {
+          "id": "itx-03-T06",
+          "title": "승격·강등 대장 갱신"
+        },
+        {
+          "id": "NEW-02",
+          "title": "직원 명부 관리"
+        }
+      ]
+    },
+    {
+      "id": "ops-03-e02",
+      "team": "ops-03",
+      "dept": "ops",
+      "name": "자격 학습 코치",
+      "role": "자격 공부를 학습 모드(답 대신 힌트)로 돕고 AI 없는 모의시험을 채점한다",
+      "status": "planned",
+      "phase": "P0",
+      "risk": "R0",
+      "executors": [
+        "claude"
+      ],
+      "checkers": [
+        "codex",
+        "script"
+      ],
+      "checker_staff": [
+        "sys-04-e01"
+      ],
+      "duties": [
+        {
+          "id": "dev-01-T01",
+          "title": "자격 학습 문답 지도"
+        },
+        {
+          "id": "dev-01-T02",
+          "title": "문제 세트·힌트형 해설 작성"
+        },
+        {
+          "id": "dev-01-T03",
+          "title": "AI 없는 모의시험 채점"
+        },
+        {
+          "id": "dev-01-T04",
+          "title": "풀이 기록·약점 개념 목록 관리"
+        }
+      ]
+    },
+    {
+      "id": "ops-03-e03",
+      "team": "ops-03",
+      "dept": "ops",
+      "name": "PB 실무 훈련 코치",
+      "role": "가상 상담 롤플레이·상품 설명 연습·AI 오류 찾기 문제를 진행하고 평가표로 채점한다",
+      "status": "planned",
+      "phase": "P0",
+      "risk": "R0",
+      "executors": [
+        "claude"
+      ],
+      "checkers": [
+        "codex",
+        "script"
+      ],
+      "checker_staff": [
+        "sys-04-e01"
+      ],
+      "duties": [
+        {
+          "id": "dev-03-T01",
+          "title": "롤플레이·훈련 시나리오와 가상 데이터 작성"
+        },
+        {
+          "id": "dev-03-T02",
+          "title": "상담 롤플레이 진행"
+        },
+        {
+          "id": "dev-03-T03",
+          "title": "상품 설명 연습 진행"
+        },
+        {
+          "id": "dev-03-T04",
+          "title": "AI 오류 찾기 문제 세트 제작"
+        },
+        {
+          "id": "dev-03-T05",
+          "title": "사용자 응답 평가표 채점·점수 기록"
+        }
+      ]
+    },
+    {
+      "id": "rsk-01-e01",
+      "team": "rsk-01",
+      "dept": "rsk",
+      "name": "기계 검사 운영관",
+      "role": "공개물·원고·패키지·레터·연락의 기계 검사와 게시 후 대조 스크립트를 운영한다",
+      "status": "building",
+      "phase": "P0",
+      "risk": "R2",
+      "executors": [
+        "script"
+      ],
+      "checkers": [],
+      "checker_staff": [
+        "sys-04-e01"
+      ],
+      "duties": [
+        {
+          "id": "cmp-01-T01",
+          "title": "공개물·산출물 기계 검사 실행"
+        },
+        {
+          "id": "cmp-01-T05",
+          "title": "게시·발송 후 승인본 대조"
+        },
+        {
+          "id": "com-01-T07",
+          "title": "원고 기계 검사 실행"
+        },
+        {
+          "id": "com-02-T04",
+          "title": "게시 후 대조(게시본=승인본)"
+        },
+        {
+          "id": "com-03-T08",
+          "title": "화면·대본 숫자 데이터 대조"
+        },
+        {
+          "id": "com-08-T06",
+          "title": "공개물 금지 패턴 스캔·cmp-01 심의 요청"
+        },
+        {
+          "id": "cmp-06-T02",
+          "title": "게시물 원고 종목 코드와 이해관계 대장 대조"
+        },
+        {
+          "id": "com-07-T03",
+          "title": "레터 수치 대조·타 고객 정보 혼입 검사"
+        },
+        {
+          "id": "cos-04-T03",
+          "title": "연락·일정 초안 기계 검사"
+        }
+      ]
+    },
+    {
+      "id": "rsk-01-e02",
+      "team": "rsk-01",
+      "dept": "rsk",
+      "name": "독립 검사관(다른 회사 모델)",
+      "role": "작성 AI와 다른 회사 모델로 정확성·요구사항 위반만 근거 위치·심각도로 보고한다",
+      "status": "building",
+      "phase": "P0",
+      "risk": "R2",
+      "executors": [
+        "codex"
+      ],
+      "checkers": [
+        "claude",
+        "script",
+        "human"
+      ],
+      "checker_staff": [],
+      "duties": [
+        {
+          "id": "cmp-01-T02",
+          "title": "독립 검사 실행·기록(다른 회사 모델)"
+        },
+        {
+          "id": "cmp-01-T06",
+          "title": "공개물 의미 검사(승인 가정 취지·성과 표시·기능 표시·AI 활용 표시)"
+        },
+        {
+          "id": "cmp-01-T07",
+          "title": "투자 판단이 든 글의 사용자 확정 기록 확인"
+        },
+        {
+          "id": "com-02-T13",
+          "title": "발행 패키지 검증 루프 실행"
+        },
+        {
+          "id": "sol-02-T10",
+          "title": "상품 정보 출처·기준일 검증"
+        },
+        {
+          "id": "rsc-03-T14",
+          "title": "시황 자료 출처 등급·정보 마감 시각 검증"
+        }
+      ]
+    },
+    {
+      "id": "rsk-01-e03",
+      "team": "rsk-01",
+      "dept": "rsk",
+      "name": "발행 승인·관문 관리관",
+      "role": "서명 승인 대기열·aside_dispatch 판정·채널 졸업·강등·관문 재분류·강제 시험을 맡는다",
+      "status": "building",
+      "phase": "P0",
+      "risk": "R2",
+      "executors": [
+        "claude",
+        "script"
+      ],
+      "checkers": [
+        "codex"
+      ],
+      "checker_staff": [
+        "rsk-04-e03"
+      ],
+      "duties": [
+        {
+          "id": "cmp-01-T03",
+          "title": "서명 승인 대기열 올리기·승인 기록 확인"
+        },
+        {
+          "id": "cmp-01-T04",
+          "title": "Aside 실행 카드 관문 판정(aside_dispatch)"
+        },
+        {
+          "id": "cmp-01-T08",
+          "title": "채널 졸업·강등 판정"
+        },
+        {
+          "id": "cmp-01-T09",
+          "title": "게시·발송 강제 시험 사례 작성·실행(C5)"
+        },
+        {
+          "id": "cmp-01-T11",
+          "title": "Aside 브리핑 루틴의 게시 관문 재분류"
+        },
+        {
+          "id": "rsc-02-T11",
+          "title": "게시 관문·기계 검사 구축(M2·M5)"
+        },
+        {
+          "id": "com-07-T04",
+          "title": "승인본 해시 대조(발송본=승인본)"
+        }
+      ]
+    },
+    {
+      "id": "rsk-01-e04",
+      "team": "rsk-01",
+      "dept": "rsk",
+      "name": "플랫폼 약관·정책 담당",
+      "role": "채널별 약관·API 한도·요금·도구 라이선스·구독 정책 대장을 원문으로 확인해 유지한다",
+      "status": "planned",
+      "phase": "P0",
+      "risk": "R0",
+      "executors": [
+        "claude"
+      ],
+      "checkers": [
+        "codex",
+        "script"
+      ],
+      "checker_staff": [],
+      "duties": [
+        {
+          "id": "cmp-02-T01",
+          "title": "채널별 약관 확인 수준·확인일 갱신"
+        },
+        {
+          "id": "cmp-02-T02",
+          "title": "약관 위험 채널의 Aside 브라우저 게시 금지 근거 유지"
+        },
+        {
+          "id": "cmp-02-T03",
+          "title": "API 한도·요금·약관 변경 재확인"
+        },
+        {
+          "id": "cmp-02-T04",
+          "title": "도구·데이터 라이선스·구독 정책 대장 작성"
+        },
+        {
+          "id": "cmp-02-T05",
+          "title": "미확인 ① claude -p 자동 실행의 구독 정책 확인"
+        },
+        {
+          "id": "cmp-02-T06",
+          "title": "미확인 ② 네이버 비공식 엔드포인트 값의 공개 사이트 서빙 적합성 기록"
+        },
+        {
+          "id": "cmp-02-T07",
+          "title": "대장 확인일·출처 완전성 검사"
+        },
+        {
+          "id": "cmp-02-T08",
+          "title": "약관 대장 평가셋 구축"
+        }
+      ]
+    },
+    {
+      "id": "rsk-01-e05",
+      "team": "rsk-01",
+      "dept": "rsk",
+      "name": "고객 대상(R2) 심의관",
+      "role": "고객 대상 산출물을 고객 구역 전용 경로에서 읽기 전용 다른 회사 모델로 심의한다",
+      "status": "planned",
+      "phase": "P1",
+      "risk": "R2",
+      "executors": [
+        "codex"
+      ],
+      "checkers": [
+        "claude",
+        "human"
+      ],
+      "checker_staff": [],
+      "duties": [
+        {
+          "id": "cmp-01-T12",
+          "title": "고객 대상(R2) 산출물 심의"
+        }
+      ]
+    },
+    {
+      "id": "rsk-02-e01",
+      "team": "rsk-02",
+      "dept": "rsk",
+      "name": "투자논리 레드팀",
+      "role": "리서치·전략 산출물의 약한 고리를 반론하고 리서치 게이트 반론 항목·콜 반증 조건을 독립 확인한다",
+      "status": "planned",
+      "phase": "P0",
+      "risk": "R1",
+      "executors": [
+        "codex"
+      ],
+      "checkers": [
+        "claude",
+        "script"
+      ],
+      "checker_staff": [],
+      "duties": [
+        {
+          "id": "cmp-04-T01",
+          "title": "리서치·전략 산출물 독립 반론 작성"
+        },
+        {
+          "id": "cmp-04-T02",
+          "title": "리서치 게이트 반론 항목 독립 확인"
+        },
+        {
+          "id": "cmp-04-T05",
+          "title": "리스크 검증 평가셋과 실행 1건"
+        },
+        {
+          "id": "rsc-04-T02",
+          "title": "반증 조건 관측 가능성 점검"
+        }
+      ]
+    },
+    {
+      "id": "rsk-02-e02",
+      "team": "rsk-02",
+      "dept": "rsk",
+      "name": "수치·모델 검증관",
+      "role": "가상 포트폴리오 리스크 지표와 반론 수치를 재계산하고 연금·세제 계산을 독립 구현으로 대조한다",
+      "status": "planned",
+      "phase": "P0",
+      "risk": "R2",
+      "executors": [
+        "codex",
+        "script"
+      ],
+      "checkers": [
+        "claude",
+        "script"
+      ],
+      "checker_staff": [],
+      "duties": [
+        {
+          "id": "cmp-04-T03",
+          "title": "가상 포트폴리오 리스크 지표 계산"
+        },
+        {
+          "id": "cmp-04-T04",
+          "title": "반론 보고 필수 칸·수치 재계산 검사"
+        },
+        {
+          "id": "sol-03-T06",
+          "title": "독립 구현 대조·정답 케이스 평가"
+        }
+      ]
+    },
+    {
+      "id": "rsk-03-e01",
+      "team": "rsk-03",
+      "dept": "rsk",
+      "name": "데이터 경계·보안 정책관",
+      "role": "데이터 구역 경계 기준·쓰기 전 스캔·고객 구역 결합 통제 시험·알려진 보안 문제·Firestore 공개 범위를 관리한다",
+      "status": "active",
+      "phase": "P0",
+      "risk": "R1",
+      "executors": [
+        "claude"
+      ],
+      "checkers": [
+        "codex",
+        "script"
+      ],
+      "checker_staff": [],
+      "duties": [
+        {
+          "id": "cmp-03-T01",
+          "title": "데이터 구역 경계 검사 기준 정의"
+        },
+        {
+          "id": "cmp-03-T03",
+          "title": "기억·노트 쓰기 전 스캔과 영역(WORK·LIFE·고객) 격리 기준"
+        },
+        {
+          "id": "cmp-03-T04",
+          "title": "고객 구역 접근·외부 전송 결합 통제 시험 사례 정의(C5 데이터 경계)"
+        },
+        {
+          "id": "cmp-03-T08",
+          "title": "알려진 보안 문제 기록(고치지 않고 기록)"
+        },
+        {
+          "id": "cmp-06-T04",
+          "title": "이해관계 대장 저장 위치·격리 방식 설계"
+        },
+        {
+          "id": "com-02-T07",
+          "title": "Firestore 보안 규칙·공개 범위 점검"
+        }
+      ]
+    },
+    {
+      "id": "rsk-03-e02",
+      "team": "rsk-03",
+      "dept": "rsk",
+      "name": "비밀값·개인정보 탐지 담당",
+      "role": "비밀값·개인정보 탐지 패턴과 커밋 전 스캔, 비밀값 위치 목록, 가짜 시험 데이터를 유지한다",
+      "status": "active",
+      "phase": "P0",
+      "risk": "R0",
+      "executors": [
+        "claude",
+        "script"
+      ],
+      "checkers": [],
+      "checker_staff": [
+        "sys-04-e01"
+      ],
+      "duties": [
+        {
+          "id": "cmp-03-T02",
+          "title": "비밀값·개인정보 탐지 패턴 정의·유지와 커밋 전 스캔"
+        },
+        {
+          "id": "cmp-03-T05",
+          "title": "비밀값 위치 목록 관리"
+        },
+        {
+          "id": "cmp-03-T06",
+          "title": "가상 고객·가짜 비밀값 시험 데이터 관리"
+        },
+        {
+          "id": "itx-01-T05",
+          "title": "비밀값·개인정보 검사 장치 운영"
+        },
+        {
+          "id": "itx-05-T02",
+          "title": "데이터셋 비밀값·고객정보 스캔"
+        }
+      ]
+    },
+    {
+      "id": "rsk-04-e01",
+      "team": "rsk-04",
+      "dept": "rsk",
+      "name": "고객보호·민원 담당",
+      "role": "민원 분류·사실관계 정리·회신 초안과 실제 데이터 투입 경로 시험을 맡는다(P1)",
+      "status": "planned",
+      "phase": "P1",
+      "risk": "R2",
+      "executors": [
+        "claude"
+      ],
+      "checkers": [
+        "codex",
+        "human"
+      ],
+      "checker_staff": [
+        "rsk-01-e05"
+      ],
+      "duties": [
+        {
+          "id": "cmp-05-T01",
+          "title": "민원·불만 접수 내용 분류"
+        },
+        {
+          "id": "cmp-05-T02",
+          "title": "민원 사실관계 표·경과 정리 작성"
+        },
+        {
+          "id": "cmp-05-T03",
+          "title": "민원 회신문 초안·개선 의견 작성"
+        },
+        {
+          "id": "cmp-05-T04",
+          "title": "가상 민원 데이터·평가셋 구축"
+        },
+        {
+          "id": "cmp-05-T05",
+          "title": "실제 데이터 투입 경로 1회 시험"
+        }
+      ]
+    },
+    {
+      "id": "rsk-04-e02",
+      "team": "rsk-04",
+      "dept": "rsk",
+      "name": "개인 준수·이해관계 담당",
+      "role": "이해관계 대장·고지 문구·대외활동·자기매매 기록과 입사 후 정책 스위치 노트를 관리한다",
+      "status": "planned",
+      "phase": "P0",
+      "risk": "R1",
+      "executors": [
+        "claude",
+        "script"
+      ],
+      "checkers": [
+        "codex",
+        "script"
+      ],
+      "checker_staff": [
+        "rsk-01-e01"
+      ],
+      "duties": [
+        {
+          "id": "cmp-06-T01",
+          "title": "이해관계 대장 기록·유지"
+        },
+        {
+          "id": "cmp-06-T03",
+          "title": "이해관계 고지 문구 초안 작성"
+        },
+        {
+          "id": "cmp-06-T05",
+          "title": "대외활동 기록"
+        },
+        {
+          "id": "cmp-06-T06",
+          "title": "자기매매 내역 정리·기록"
+        },
+        {
+          "id": "cmp-06-T07",
+          "title": "입사 후 회사 요구 기록·보고 방식 정책 스위치 노트 작성"
+        },
+        {
+          "id": "cmp-06-T08",
+          "title": "개인 준수 평가셋 구축"
+        }
+      ]
+    },
+    {
+      "id": "rsk-04-e03",
+      "team": "rsk-04",
+      "dept": "rsk",
+      "name": "내부통제 점검관",
+      "role": "정지 파일 연결·관문 경로를 점검하고 서명 원장 무결성·실행 이력을 정기 감사한다",
+      "status": "building",
+      "phase": "P0",
+      "risk": "R1",
+      "executors": [
+        "claude",
+        "script"
+      ],
+      "checkers": [
+        "codex"
+      ],
+      "checker_staff": [],
+      "duties": [
+        {
+          "id": "cmp-01-T10",
+          "title": "게시 경로 정지 파일 연결 점검"
+        },
+        {
+          "id": "itx-02-T07",
+          "title": "정지 파일 연결 점검"
+        },
+        {
+          "id": "NEW-04",
+          "title": "원장 무결성·실행 이력 정기 감사"
+        }
+      ]
+    },
+    {
+      "id": "sys-01-e01",
+      "team": "sys-01",
+      "dept": "sys",
+      "name": "에이전트 아키텍트",
+      "role": "직원 프로필·라우팅 규칙·작업 카드 직원 칸을 설계하고 텔레그램 자연어 연결을 설계한다",
+      "status": "planned",
+      "phase": "P0",
+      "risk": "R0",
+      "executors": [
+        "claude"
+      ],
+      "checkers": [
+        "codex"
+      ],
+      "checker_staff": [],
+      "duties": [
+        {
+          "id": "NEW-03",
+          "title": "직원 프로필·라우팅 규칙 설계"
+        },
+        {
+          "id": "itx-02-T04",
+          "title": "텔레그램 자연어 연결(claude -p)"
+        }
+      ]
+    },
+    {
+      "id": "sys-01-e02",
+      "team": "sys-01",
+      "dept": "sys",
+      "name": "스킬·도구 연결 엔지니어",
+      "role": "스킬·플러그인 정리 목록과 3도구 스킬 정션, 스킬 사본 해시 대조를 유지한다",
+      "status": "active",
+      "phase": "P0",
+      "risk": "R0",
+      "executors": [
+        "claude"
+      ],
+      "checkers": [
+        "codex",
+        "script"
+      ],
+      "checker_staff": [],
+      "duties": [
+        {
+          "id": "cos-03-T04",
+          "title": "스킬·플러그인 정리 목록 작성·관리"
+        },
+        {
+          "id": "itx-01-T10",
+          "title": "3도구 스킬 정션(C3)과 Aside 시험"
+        },
+        {
+          "id": "itx-04-T09",
+          "title": "스킬 사본 해시 대조"
+        }
+      ]
+    },
+    {
+      "id": "sys-02-e01",
+      "team": "sys-02",
+      "dept": "sys",
+      "name": "시스템 운영·관제 엔지니어",
+      "role": "예약 작업·Aside 루틴을 등록·감시하고 관제 화면·한도 경보·도구 상태 점검·오류 주입 시험을 운영한다",
+      "status": "active",
+      "phase": "P0",
+      "risk": "R0",
+      "executors": [
+        "claude",
+        "script"
+      ],
+      "checkers": [
+        "script"
+      ],
+      "checker_staff": [
+        "rsk-04-e03"
+      ],
+      "duties": [
+        {
+          "id": "itx-02-T01",
+          "title": "예약 작업·Aside 루틴 상태·실패 감시"
+        },
+        {
+          "id": "itx-02-T02",
+          "title": "예약 작업·Aside 루틴 등록·변경"
+        },
+        {
+          "id": "itx-02-T09",
+          "title": "관제 화면 HTML 생성"
+        },
+        {
+          "id": "itx-02-T10",
+          "title": "구독 한도 경보 구현"
+        },
+        {
+          "id": "itx-02-T11",
+          "title": "도구 상태 점검 JSON·대체 경로 목록"
+        },
+        {
+          "id": "itx-02-T13",
+          "title": "Aside 루틴 JSON 덤프 작성·갱신"
+        },
+        {
+          "id": "itx-02-T14",
+          "title": "구독 한도·인증 오류 주입 시험(C19)"
+        },
+        {
+          "id": "itx-01-T09",
+          "title": "예약 작업 덤프·jobs.json 이관"
+        }
+      ]
+    },
+    {
+      "id": "sys-02-e02",
+      "team": "sys-02",
+      "dept": "sys",
+      "name": "텔레그램 중계 엔지니어",
+      "role": "텔레그램 비공개 조작 입구(명령·정지·해제·요약·/고객 입구·승인 카드 연결)를 만들고 운영한다",
+      "status": "building",
+      "phase": "P0",
+      "risk": "R1",
+      "executors": [
+        "claude"
+      ],
+      "checkers": [
+        "codex",
+        "script"
+      ],
+      "checker_staff": [],
+      "duties": [
+        {
+          "id": "itx-02-T03",
+          "title": "텔레그램 중계 개발·운영(명령·정지·해제·알림)"
+        },
+        {
+          "id": "itx-02-T05",
+          "title": "텔레그램 /상태·/대기와 하루 2회 요약"
+        },
+        {
+          "id": "itx-02-T06",
+          "title": "/고객 고객 작업 입구"
+        },
+        {
+          "id": "itx-02-T08",
+          "title": "텔레그램 승인 카드·수정·게시 연결(M4)"
+        }
+      ]
+    },
+    {
+      "id": "sys-02-e03",
+      "team": "sys-02",
+      "dept": "sys",
+      "name": "백업·이식 엔지니어",
+      "role": "원격 백업·비밀값 이전·메모리 백업·복원 절차·리허설·Drive 보관·RS 이식성을 맡는다",
+      "status": "building",
+      "phase": "P0",
+      "risk": "R0",
+      "executors": [
+        "claude",
+        "script"
+      ],
+      "checkers": [
+        "codex"
+      ],
+      "checker_staff": [
+        "rsk-03-e02"
+      ],
+      "duties": [
+        {
+          "id": "itx-01-T02",
+          "title": "원격 백업(GitHub 비공개 저장소 단방향 push)"
+        },
+        {
+          "id": "itx-01-T03",
+          "title": "평문 비밀값 이전"
+        },
+        {
+          "id": "itx-01-T04",
+          "title": "Claude 메모리 폴더 단방향 백업"
+        },
+        {
+          "id": "itx-01-T06",
+          "title": "새 PC 복원 절차 구축"
+        },
+        {
+          "id": "itx-01-T07",
+          "title": "복원 리허설(C9)과 도구 장애 시험(C19)"
+        },
+        {
+          "id": "itx-01-T08",
+          "title": "대용량·종결 프로젝트 Drive 보관"
+        },
+        {
+          "id": "itx-01-T11",
+          "title": "RS Tracker 이식성 작업"
+        }
+      ]
+    },
+    {
+      "id": "sys-03-e01",
+      "team": "sys-03",
+      "dept": "sys",
+      "name": "정본·지식 관리자",
+      "role": "정본-생성본 일치 검사와 노션 한 방향 반영을 맡는다",
+      "status": "active",
+      "phase": "P0",
+      "risk": "R0",
+      "executors": [
+        "claude",
+        "script"
+      ],
+      "checkers": [
+        "script"
+      ],
+      "checker_staff": [],
+      "duties": [
+        {
+          "id": "itx-01-T01",
+          "title": "정본·생성본 일치 검사"
+        },
+        {
+          "id": "itx-02-T12",
+          "title": "노션 한 방향 반영과 해시 대조(C13)"
+        }
+      ]
+    },
+    {
+      "id": "sys-03-e02",
+      "team": "sys-03",
+      "dept": "sys",
+      "name": "데이터 파이프라인 엔지니어",
+      "role": "결정 기록 데이터셋·대화 기록 정제(P2)와 리포트 수집 자동화를 맡는다",
+      "status": "planned",
+      "phase": "P0",
+      "risk": "R0",
+      "executors": [
+        "claude",
+        "script"
+      ],
+      "checkers": [],
+      "checker_staff": [
+        "rsk-03-e02"
+      ],
+      "duties": [
+        {
+          "id": "itx-05-T01",
+          "title": "결정 기록 데이터셋 구축"
+        },
+        {
+          "id": "itx-05-T03",
+          "title": "대화 기록 정제(고객 구역 작업)"
+        },
+        {
+          "id": "rsc-01-T10",
+          "title": "리포트 수집 자동화(3단계)"
+        }
+      ]
+    },
+    {
+      "id": "sys-04-e01",
+      "team": "sys-04",
+      "dept": "sys",
+      "name": "평가셋·회귀 엔지니어",
+      "role": "평가셋 회귀·사례(입력) 작성·사람 표본·실패 재현·A/B 평가를 운영하고 각 팀 평가셋 형식을 검수한다. 정답 가림·결함 주입은 sys-04-e03 몫이다. 사례 출처는 사용자·실제 실패 재현·코드 재계산·Claude 작성만 쓰고 'Codex 작성' 사례는 만들지 않는다(정답 작성 회사와 겹치지 않게)",
+      "status": "active",
+      "phase": "P0",
+      "risk": "R0",
+      "executors": [
+        "claude",
+        "script"
+      ],
+      "checkers": [
+        "script",
+        "human"
+      ],
+      "checker_staff": [],
+      "duties": [
+        {
+          "id": "itx-03-T01",
+          "title": "평가셋 회귀 실행"
+        },
+        {
+          "id": "itx-03-T02",
+          "title": "평가 사례 작성"
+        },
+        {
+          "id": "itx-03-T04",
+          "title": "사용자 확인 사례 확보"
+        },
+        {
+          "id": "itx-03-T05",
+          "title": "주간 사람 표본 5건 확인"
+        },
+        {
+          "id": "itx-03-T07",
+          "title": "실패 처리(재현 사례화)"
+        },
+        {
+          "id": "itx-03-T08",
+          "title": "블라인드 A/B 비교 평가"
+        },
+        {
+          "id": "dev-01-T05",
+          "title": "학습 모드 준수 검사"
+        },
+        {
+          "id": "dev-03-T06",
+          "title": "시나리오·피드백 정확성 검사"
+        }
+      ]
+    },
+    {
+      "id": "sys-04-e02",
+      "team": "sys-04",
+      "dept": "sys",
+      "name": "도구 탐색·도입 심사관",
+      "role": "주간 도구 탐색·후보 판정·설치 없는 패턴 차용·도입 심사·시험 도구(영상·음성·디자인) 판정을 맡는다",
+      "status": "active",
+      "phase": "P0",
+      "risk": "R0",
+      "executors": [
+        "claude",
+        "aside"
+      ],
+      "checkers": [
+        "codex",
+        "script"
+      ],
+      "checker_staff": [],
+      "duties": [
+        {
+          "id": "itx-04-T01",
+          "title": "주간 탐색 수집"
+        },
+        {
+          "id": "itx-04-T02",
+          "title": "후보 선별·판정"
+        },
+        {
+          "id": "itx-04-T03",
+          "title": "설치 없는 패턴 차용 반영"
+        },
+        {
+          "id": "itx-04-T04",
+          "title": "외부 AI 스킬·플러그인 도입 심사"
+        },
+        {
+          "id": "itx-04-T05",
+          "title": "승인 대기열 추천안 작성"
+        },
+        {
+          "id": "itx-04-T06",
+          "title": "관찰 목록 대장 관리"
+        },
+        {
+          "id": "itx-04-T07",
+          "title": "주간 보고 작성"
+        },
+        {
+          "id": "itx-04-T08",
+          "title": "시험 도구 심사·머더디핀 추후 연결 심사"
+        },
+        {
+          "id": "itx-03-T09",
+          "title": "impeccable 디자인 규칙 검출 시험"
+        },
+        {
+          "id": "com-03-T10",
+          "title": "영상 렌더 도구 시험(hyperframes)"
+        },
+        {
+          "id": "com-03-T11",
+          "title": "음성 합성 도구 판정(VoiceStudio)"
+        }
+      ]
+    },
+    {
+      "id": "sys-04-e03",
+      "team": "sys-04",
+      "dept": "sys",
+      "name": "정답 가림·결함 주입 관리자",
+      "role": "holdout 정답과 결함 주입·혼입 사례를 작성 모델(Claude)과 다른 회사 모델로 만들고 보관한다. 작성 직원은 정답을 보지 못한다",
+      "status": "active",
+      "phase": "P0",
+      "risk": "R0",
+      "executors": [
+        "codex",
+        "script"
+      ],
+      "checkers": [
+        "script",
+        "human"
+      ],
+      "checker_staff": [],
+      "duties": [
+        {
+          "id": "itx-03-T03",
+          "title": "정답 가림 보관·결함 주입 평가"
+        },
+        {
+          "id": "cmp-03-T07",
+          "title": "결함 주입 평가셋 유지와 매주 사람 표본"
+        }
+      ]
+    },
+    {
+      "id": "wms-01-e01",
+      "team": "wms-01",
+      "dept": "wms",
+      "name": "영업기획·퍼널 설계자",
+      "role": "고객 발굴 퍼널·지표표·소개 요청 루틴을 설계하고 전환을 추적한다",
+      "status": "planned",
+      "phase": "P0",
+      "risk": "R2",
+      "executors": [
+        "claude"
+      ],
+      "checkers": [
+        "codex",
+        "script"
+      ],
+      "checker_staff": [],
+      "duties": [
+        {
+          "id": "wm-01-T01",
+          "title": "고객 발굴 퍼널 설계서·지표표 작성"
+        },
+        {
+          "id": "wm-01-T02",
+          "title": "소개 요청 루틴 설계"
+        },
+        {
+          "id": "wm-01-T05",
+          "title": "잠재고객 퍼널 운영·전환 추적"
+        },
+        {
+          "id": "wm-01-T06",
+          "title": "영업기획 평가셋·투입 경로 시험"
+        }
+      ]
+    },
+    {
+      "id": "wms-01-e02",
+      "team": "wms-01",
+      "dept": "wms",
+      "name": "고객 발굴 리서처",
+      "role": "공개 공시 기반 이벤트 신호(예 최대주주 변경·IPO)를 목록으로 만든다",
+      "status": "planned",
+      "phase": "P0",
+      "risk": "R0",
+      "executors": [
+        "claude"
+      ],
+      "checkers": [
+        "script"
+      ],
+      "checker_staff": [],
+      "duties": [
+        {
+          "id": "wm-01-T03",
+          "title": "공개 공시 기반 이벤트 신호 목록 작성"
+        }
+      ]
+    },
+    {
+      "id": "wms-02-e01",
+      "team": "wms-02",
+      "dept": "wms",
+      "name": "CRM 데이터 관리자",
+      "role": "고객 세그먼트·상담 이력 구조를 설계하고 알림·문의 분류·행사 참가 정보를 관리한다",
+      "status": "planned",
+      "phase": "P1",
+      "risk": "R2",
+      "executors": [
+        "claude"
+      ],
+      "checkers": [
+        "codex",
+        "script"
+      ],
+      "checker_staff": [
+        "rsk-03-e02"
+      ],
+      "duties": [
+        {
+          "id": "wm-02-T01",
+          "title": "고객 세그먼트·상담 이력 스키마 설계"
+        },
+        {
+          "id": "wm-02-T02",
+          "title": "기념일·안부·미접촉 알림 생성"
+        },
+        {
+          "id": "wm-02-T04",
+          "title": "방문자 문의 접수·분류"
+        },
+        {
+          "id": "wm-02-T05",
+          "title": "CRM 평가셋·투입 경로 시험"
+        },
+        {
+          "id": "com-06-T05",
+          "title": "참가 신청·질문 정보 정리"
+        }
+      ]
+    },
+    {
+      "id": "wms-02-e02",
+      "team": "wms-02",
+      "dept": "wms",
+      "name": "고객 커뮤니케이션 작가",
+      "role": "고객 대상 글(접촉·후속 연락·안부·시황 레터·안내)을 하나의 작가가 쓴다(wm-01·02·03·com-07 중복 통합)",
+      "status": "planned",
+      "phase": "P1",
+      "risk": "R2",
+      "executors": [
+        "claude"
+      ],
+      "checkers": [
+        "codex",
+        "script"
+      ],
+      "checker_staff": [
+        "rsk-01-e05",
+        "rsk-01-e01"
+      ],
+      "duties": [
+        {
+          "id": "wm-01-T04",
+          "title": "잠재고객 접촉·소개 요청 문안 작성"
+        },
+        {
+          "id": "wm-02-T03",
+          "title": "후속 연락·안부 문안 초안 작성"
+        },
+        {
+          "id": "wm-03-T05",
+          "title": "후속 연락 초안 작성"
+        },
+        {
+          "id": "com-07-T01",
+          "title": "정기 시황 레터 작성(고객 대상)"
+        },
+        {
+          "id": "com-07-T02",
+          "title": "안내·소식 레터 작성(고객 대상)"
+        },
+        {
+          "id": "com-07-T05",
+          "title": "고객 레터 발송"
+        },
+        {
+          "id": "com-07-T06",
+          "title": "고객 레터 가상 데이터 평가·투입 경로 시험 구축"
+        }
+      ]
+    },
+    {
+      "id": "wms-03-e01",
+      "team": "wms-03",
+      "dept": "wms",
+      "name": "상담 준비 분석가",
+      "role": "미팅 전 브리핑·상담 기록 정리·상담용 시장자료를 준비한다",
+      "status": "planned",
+      "phase": "P1",
+      "risk": "R2",
+      "executors": [
+        "claude"
+      ],
+      "checkers": [
+        "codex",
+        "script"
+      ],
+      "checker_staff": [],
+      "duties": [
+        {
+          "id": "wm-03-T01",
+          "title": "미팅 전 브리핑 작성"
+        },
+        {
+          "id": "wm-03-T02",
+          "title": "상담 기록 정리"
+        },
+        {
+          "id": "wm-03-T07",
+          "title": "상담용 시장자료 사전 준비"
+        },
+        {
+          "id": "wm-03-T09",
+          "title": "상담·제안 평가셋·투입 경로 시험"
+        }
+      ]
+    },
+    {
+      "id": "wms-03-e02",
+      "team": "wms-03",
+      "dept": "wms",
+      "name": "제안서 작성가",
+      "role": "적합성 판단 초안을 포함한 제안서를 쓰고 수치를 재계산·대조한다(규칙 1)",
+      "status": "planned",
+      "phase": "P1",
+      "risk": "R2",
+      "executors": [
+        "claude"
+      ],
+      "checkers": [
+        "codex",
+        "script",
+        "human"
+      ],
+      "checker_staff": [
+        "rsk-01-e05",
+        "rsk-02-e02"
+      ],
+      "duties": [
+        {
+          "id": "wm-03-T03",
+          "title": "제안서 초안 작성(적합성 판단 초안 포함)"
+        },
+        {
+          "id": "wm-03-T04",
+          "title": "제안서 수치 재계산·출처·기준일 대조"
+        }
+      ]
+    },
+    {
+      "id": "wms-03-e03",
+      "team": "wms-03",
+      "dept": "wms",
+      "name": "포트폴리오 리뷰 담당",
+      "role": "고객 포트폴리오 정기 리뷰 자료를 만든다(실제 모니터링이 매주 돌면 팀으로 분리)",
+      "status": "planned",
+      "phase": "P1",
+      "risk": "R2",
+      "executors": [
+        "claude"
+      ],
+      "checkers": [
+        "codex",
+        "script"
+      ],
+      "checker_staff": [
+        "rsk-02-e02"
+      ],
+      "duties": [
+        {
+          "id": "wm-03-T06",
+          "title": "정기 리뷰 자료 작성"
+        }
+      ]
+    },
+    {
+      "id": "wms-04-e01",
+      "team": "wms-04",
+      "dept": "wms",
+      "name": "자산가·법인 진단 설계자",
+      "role": "자산가·법인 오너 진단 질문지와 진단서·전문가 연결 브리프를 만든다",
+      "status": "planned",
+      "phase": "P0",
+      "risk": "R2",
+      "executors": [
+        "claude"
+      ],
+      "checkers": [
+        "codex",
+        "script"
+      ],
+      "checker_staff": [],
+      "duties": [
+        {
+          "id": "wm-04-T01",
+          "title": "자산가·법인 오너 진단 질문지 작성"
+        },
+        {
+          "id": "wm-04-T02",
+          "title": "진단서·전문가 연결 브리프 작성"
+        },
+        {
+          "id": "wm-04-T03",
+          "title": "브리프 수치를 연금·세제 계산 결과와 대조"
+        },
+        {
+          "id": "wm-04-T05",
+          "title": "자산가·법인 솔루션 평가셋·투입 경로 시험"
+        }
+      ]
+    },
+    {
+      "id": "wms-04-e02",
+      "team": "wms-04",
+      "dept": "wms",
+      "name": "법인 공시 분석가",
+      "role": "법인 고객 후보의 공개 공시를 분석한다(고객 자료 작업과 분리)",
+      "status": "planned",
+      "phase": "P2",
+      "risk": "R0",
+      "executors": [
+        "claude"
+      ],
+      "checkers": [
+        "codex"
+      ],
+      "checker_staff": [],
+      "duties": [
+        {
+          "id": "wm-04-T04",
+          "title": "법인 공시 분석"
+        }
+      ]
+    }
+  ],
+  "expansion": [
+    {
+      "team": "inv-02",
+      "role": "산업별 전담 애널리스트(반도체·AI·전력 등)",
+      "trigger": "같은 산업 리서치 원본이 4주 연속 주 2건 이상"
+    },
+    {
+      "team": "inv-05",
+      "role": "채권 분석가",
+      "trigger": "채권 상품 비교·실사 업무가 생김(P1 회사 취급 상품 포함)"
+    },
+    {
+      "team": "inv-05",
+      "role": "파생결합상품(ELS) 분석가",
+      "trigger": "ELS·DLS 실사 업무가 생김(P1)"
+    },
+    {
+      "team": "inv-01",
+      "role": "금리·환율 전담",
+      "trigger": "금리·환율 전용 산출물이 매주 정기로 생김"
+    },
+    {
+      "team": "med-03",
+      "role": "페이스북 담당",
+      "trigger": "페이스북 채널 노트가 생기고 계정이 준비됨(지금 채널 없음)"
+    },
+    {
+      "team": "med-03",
+      "role": "인스타그램 전담",
+      "trigger": "공식 API 발행 뒤 저장·공유율 분석으로 콘텐츠를 고치는 일이 매주 돎"
+    },
+    {
+      "team": "med-03",
+      "role": "스레드 전담",
+      "trigger": "대화 반응을 분석해 글을 고치는 일이 매주 돎"
+    },
+    {
+      "team": "med-02",
+      "role": "유튜브 기획·쇼츠·썸네일·SEO 세분화",
+      "trigger": "유튜브 업로드가 4주 연속 주 2건 이상"
+    },
+    {
+      "team": "wms-03",
+      "role": "포트폴리오 사후관리팀 분리",
+      "trigger": "실제 고객 포트폴리오 모니터링이 P1로 매주 돎"
+    },
+    {
+      "team": "wms-04",
+      "role": "상속·증여·부동산·퇴직연금 전문",
+      "trigger": "고객군에서 해당 질문이 월 3건 이상"
+    },
+    {
+      "team": "sys-03",
+      "role": "데이터엔지니어링팀 분리",
+      "trigger": "API 연동 2개 이상이 P0로 운영됨"
+    },
+    {
+      "team": "sys-03",
+      "role": "RAG 검색 담당",
+      "trigger": "정본 검색 인덱스를 만들기로 결정"
+    },
+    {
+      "team": "ops-03",
+      "role": "사업 운영·세무회계 팀(독립 사업 경로)",
+      "trigger": "사업자등록 경로로 전환(cos-03-T05)"
+    }
+  ],
+  "legacy": {
+    "teams": {
+      "cmp-01": "rsk-01",
+      "cmp-02": "rsk-01",
+      "cmp-03": "rsk-03",
+      "cmp-04": "rsk-02",
+      "cmp-05": "rsk-04",
+      "cmp-06": "rsk-04",
+      "com-01": "med-01",
+      "com-02": "med-03",
+      "com-03": "med-02",
+      "com-04": "med-03",
+      "com-05": "med-04",
+      "com-06": "med-05",
+      "com-07": "wms-02",
+      "com-08": "med-05",
+      "cos-01": "ops-02",
+      "cos-02": "ops-01",
+      "cos-03": "ops-03",
+      "cos-04": "ops-02",
+      "dev-01": "ops-03",
+      "dev-03": "ops-03",
+      "itx-01": "sys-02",
+      "itx-02": "sys-02",
+      "itx-03": "sys-04",
+      "itx-04": "sys-04",
+      "itx-05": "sys-03",
+      "rsc-01": "inv-02",
+      "rsc-02": "inv-03",
+      "rsc-03": "inv-01",
+      "rsc-04": "inv-04",
+      "sol-01": "inv-04",
+      "sol-02": "inv-05",
+      "sol-03": "inv-06",
+      "wm-01": "wms-01",
+      "wm-02": "wms-02",
+      "wm-03": "wms-03",
+      "wm-04": "wms-04"
+    },
+    "depts": {
+      "cmp": "rsk",
+      "com": "med",
+      "cos": "ops",
+      "dev": "ops",
+      "itx": "sys",
+      "rsc": "inv",
+      "sol": "inv",
+      "wm": "wms"
+    }
+  }
+}
